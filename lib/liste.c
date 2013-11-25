@@ -19,3 +19,8 @@ Liste* Creer_liste()
 
   return liste;
 }
+
+unsigned int Taille_liste(Liste *liste)
+{
+  return liste->taille;
+}

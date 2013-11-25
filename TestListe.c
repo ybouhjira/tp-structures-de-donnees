@@ -18,7 +18,10 @@ void Test_Supprimer_Liste(CuTest *tc)
 
 void Test_Taille_Liste(CuTest *tc)
 {
-  CuAssertTrue(tc, 0);
+  Liste *liste = Creer_liste();
+  CuAssertIntEquals(tc, Taille_liste(liste), 0);
+
+  // TODO : test after insertion & free liste
 }
 
 void Test_Premier_liste(CuTest *tc)

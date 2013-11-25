@@ -24,4 +24,15 @@ typedef struct ElementListe
  */
 Liste* Creer_liste();
 
+/*
+ * Nom de la fonction: Taille_liste
+ * Entrées :
+ *    Liste :Une liste chainée
+ * Sorties :
+ *    unsigned int taille : La taille de la liste
+ * Description:
+ *    Retourne la taille de la liste
+ */
+unsigned int Taille_liste(Liste *liste);
+
 #endif // LISTE_H
