@@ -7,7 +7,7 @@ SOURCES += \
     TestListe.c \
     AllTests.c \
     CuTest/CuTest.c \
-    lib/liste.cpp
+    lib/liste.c
 
 HEADERS += CuTest/CuTest.h \
     lib/liste.h
