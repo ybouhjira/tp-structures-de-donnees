@@ -5,10 +5,45 @@
 
 #include "lib/liste.h"
 
+// Helpers
+void Debug_liste(Liste *liste)
+{
+  ElementListe *courant = Premier_liste(liste);
+  printf("liste->permier = %p\n", courant);
+  printf("liste->taille = %d\n", Taille_liste(liste));
+  int i = 0;
+  while(courant)
+    {
+      printf("\nliste[%d]->valeur = %d\n", i, courant->valeur);
+      printf("liste[%d]->suivant = %p\n", i++, courant->suivant);
+      courant = courant->suivant;
+    }
+}
+
+// Tests
 void Test_Inserer_Liste(CuTest *tc)
 {
-  CuAssertTrue(tc, 0);
 
+  // Test 1:
+  Liste *liste = Creer_liste();
+  Inserer_liste(liste, 5, 0);
+
+  CuAssertIntEquals(tc, 1, Taille_liste(liste));
+  CuAssertTrue(tc, 5 == Premier_liste(liste)->valeur);
+  CuAssertTrue(tc, NULL == Premier_liste(liste)->suivant);
+
+  // Test 2:
+  // insértion de plusieurs valeurs
+  int nbr = 10;
+  Liste *liste2 = Creer_liste();
+  int i;
+  for (i = 0; i < nbr; ++i) Inserer_liste(liste2, 2 * i, 0);
+
+  // test des valeurs
+  ElementListe *courant = Premier_liste(liste2);
+  for (i = 0; i < nbr; ++i, courant = courant->suivant)
+      CuAssertIntEquals(tc, 2 * (nbr - i - 1), courant->valeur);
+  CuAssertTrue(tc, NULL == courant);
 }
 
 void Test_Supprimer_Liste(CuTest *tc)

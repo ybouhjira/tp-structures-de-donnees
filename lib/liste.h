@@ -35,4 +35,27 @@ Liste* Creer_liste();
  */
 unsigned int Taille_liste(Liste *liste);
 
+/*
+ * Nom de la fonction: Premier_liste
+ * Entrées :
+ *    Liste *liste : Une liste chainée
+ * Sorties :
+ *    ElementListe *element : Le premier element de la liste
+ * Description:
+ *    Retourne le premier élément de la liste
+ */
+ElementListe *Premier_liste(Liste *liste);
+
+
+/*
+ * Nom de la fonction: Inserer_liste
+ * Entrées :
+ *    Liste *liste : Une liste chainée
+ *    int val : La valeur à inserer
+ *    unsigned int pos : La position de l'insertion
+ * Description:
+ *    Inserer l'élément val à la position pos
+ */
+void Inserer_liste(Liste *liste, int val, unsigned int pos);
+
 #endif // LISTE_H
