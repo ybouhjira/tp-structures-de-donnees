@@ -53,12 +53,24 @@ void Test_Inserer_Liste(CuTest *tc)
 
 void Test_Supprimer_Liste(CuTest *tc)
 {
-//  Liste *liste = Creer_liste();
-//  int i;
-//  for(i = 0; i < 10; ++i) Inserer_liste(liste, i, Taille_liste(liste));
+  Liste *liste = Creer_liste();
+  int i;
+  for(i = 0; i < 4; ++i) Inserer_liste(liste, i, Taille_liste(liste));
 
-//  Supprimer_liste(liste, 0);
-//  CuAssertIntEquals(tc, 9, Taille_liste(liste));
+  Supprimer_liste(liste, 0);
+  CuAssertIntEquals(tc, 3, Taille_liste(liste));
+
+  Supprimer_liste(liste, Taille_liste(liste) - 1);
+  CuAssertIntEquals(tc, 1, Premier_liste(liste)->valeur);
+  CuAssertIntEquals(tc, 2, Premier_liste(liste)->suivant->valeur);
+
+  CuAssertIntEquals(tc, 2, Taille_liste(liste));
+
+  // Vider la liste
+  while(Taille_liste(liste)) Supprimer_liste(liste, 0);
+
+
+  CuAssertIntEquals(tc, 0, Taille_liste(liste));
 }
 
 void Test_Taille_Liste(CuTest *tc)
@@ -92,5 +104,6 @@ CuSuite* Liste_get_suite()
 
 void Detruire_liste(Liste *liste)
 {
-  //
+  while(Taille_liste(liste)) Supprimer_liste(liste, 0);
+  free(liste);
 }
