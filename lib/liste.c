@@ -63,7 +63,7 @@ void Inserer_liste(Liste *liste, int val, unsigned int pos)
     {
       ElementListe *courant = liste->premier;
       unsigned int i;
-      for(i = 0; i < pos; ++i) courant = courant->suivant;
+      for(i = 0; i < pos - 1; ++i) courant = courant->suivant;
 
       element->suivant = courant->suivant;
       courant->suivant = element;
@@ -71,4 +71,28 @@ void Inserer_liste(Liste *liste, int val, unsigned int pos)
 
   // Incrémentation de la taille
   liste->taille++;
+}
+
+void Supprimer_liste(Liste *liste, unsigned int pos)
+{
+  assert(pos < liste->taille);
+
+  if(!pos)
+    {
+      ElementListe *ancienPremier = liste->premier;
+      liste->premier = liste->premier->suivant;
+      free(ancienPremier);
+    }
+  else
+    {
+      unsigned int i;
+      ElementListe *courant = liste->premier;
+      for (i = 0; i < pos - 1; ++i) courant = courant->suivant;
+
+      ElementListe *cible = courant->suivant;
+      courant->suivant = courant->suivant->suivant;
+      free(cible);
+    }
+  // Décrementer la taille
+  liste->taille--;
 }

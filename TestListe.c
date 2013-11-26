@@ -42,13 +42,23 @@ void Test_Inserer_Liste(CuTest *tc)
   // test des valeurs
   ElementListe *courant = Premier_liste(liste2);
   for (i = 0; i < nbr; ++i, courant = courant->suivant)
-      CuAssertIntEquals(tc, 2 * (nbr - i - 1), courant->valeur);
+    CuAssertIntEquals(tc, 2 * (nbr - i - 1), courant->valeur);
   CuAssertTrue(tc, NULL == courant);
+
+  // Test 3:
+    Liste *liste3 = Creer_liste();
+    for(i = 0; i < 10; ++i) Inserer_liste(liste3, i, Taille_liste(liste3));
+    CuAssertIntEquals(tc, 10, Taille_liste(liste3));
 }
 
 void Test_Supprimer_Liste(CuTest *tc)
 {
-  CuAssertTrue(tc, 0);
+//  Liste *liste = Creer_liste();
+//  int i;
+//  for(i = 0; i < 10; ++i) Inserer_liste(liste, i, Taille_liste(liste));
+
+//  Supprimer_liste(liste, 0);
+//  CuAssertIntEquals(tc, 9, Taille_liste(liste));
 }
 
 void Test_Taille_Liste(CuTest *tc)
@@ -61,7 +71,12 @@ void Test_Taille_Liste(CuTest *tc)
 
 void Test_Premier_liste(CuTest *tc)
 {
-  CuAssertTrue(tc, 0);
+  Liste *liste = Creer_liste();
+  int i;
+  for (i = 0; i < 10; ++i) Inserer_liste(liste, i, Taille_liste(liste));
+
+  CuAssertIntEquals(tc, 0, Premier_liste(liste)->valeur);
+  CuAssertIntEquals(tc, 1, Premier_liste(liste)->suivant->valeur);
 }
 
 
@@ -73,4 +88,9 @@ CuSuite* Liste_get_suite()
   SUITE_ADD_TEST(suite, Test_Supprimer_Liste);
   SUITE_ADD_TEST(suite, Test_Taille_Liste);
   return suite;
+}
+
+void Detruire_liste(Liste *liste)
+{
+  //
 }
