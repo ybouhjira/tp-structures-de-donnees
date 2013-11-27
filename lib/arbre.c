@@ -87,3 +87,14 @@ void Postfixe_arbre(Arbre *arbre)
   if(arbre->droit) Postfixe_arbre(arbre->droit);
   printf("%d, ", arbre->val);
 }
+
+void Inserer_arbre_ordnnee(Arbre **arbre, int val)
+{
+  if(!(*arbre))
+    *arbre = Creer_Arbre(val);
+  else
+    {
+      if(val > (*arbre)->val)  Inserer_arbre_ordnnee(&(*arbre)->droit, val);
+      else Inserer_arbre_ordnnee(&(*arbre)->gauche, val);
+    }
+}

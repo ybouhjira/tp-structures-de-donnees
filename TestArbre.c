@@ -1,9 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "CuTest/CuTest.h"
 
 #include "lib/arbre.h"
+
+// Helpers:
+void CuAssertArbreOrdonnee(CuTest *tc, Arbre *arbre)
+{
+  if(arbre->droit)
+    {
+      CuAssertTrue(tc, arbre->val <= arbre->droit->val);
+      CuAssertArbreOrdonnee(tc, arbre->droit);
+    }
+  if(arbre->gauche)
+    {
+      CuAssertTrue(tc, arbre->val >= arbre->gauche->val);
+      CuAssertArbreOrdonnee(tc, arbre->gauche);
+    }
+}
+
+// Tests:
+void Test_Inserer_arbre_ordonnee(CuTest *tc)
+{
+  srand(time(NULL));
+  Arbre *arbre = NULL;
+
+  int i;
+  for (i = 0; i < 1000; ++i) Inserer_arbre_ordnnee(&arbre, rand() % 10000);
+
+  CuAssertArbreOrdonnee(tc, arbre);
+
+}
 
 void Test_Longueur_arbre(CuTest *tc)
 {
@@ -43,5 +72,6 @@ CuSuite* Arbre_get_suite()
 {
   CuSuite *suite = CuSuiteNew();
   SUITE_ADD_TEST(suite, Test_Longueur_arbre);
+  SUITE_ADD_TEST(suite, Test_Inserer_arbre_ordonnee);
   return suite;
 }
