@@ -96,3 +96,9 @@ void Supprimer_liste(Liste *liste, unsigned int pos)
   // Décrementer la taille
   liste->taille--;
 }
+
+void Detruire_liste(Liste *liste)
+{
+  while(Taille_liste(liste)) Supprimer_liste(liste, 0);
+  free(liste);
+}

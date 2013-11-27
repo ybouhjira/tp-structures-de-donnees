@@ -77,8 +77,6 @@ void Test_Taille_Liste(CuTest *tc)
 {
   Liste *liste = Creer_liste();
   CuAssertIntEquals(tc, Taille_liste(liste), 0);
-
-  // TODO : test after insertion & free liste
 }
 
 void Test_Premier_liste(CuTest *tc)
@@ -102,8 +100,4 @@ CuSuite* Liste_get_suite()
   return suite;
 }
 
-void Detruire_liste(Liste *liste)
-{
-  while(Taille_liste(liste)) Supprimer_liste(liste, 0);
-  free(liste);
-}
+

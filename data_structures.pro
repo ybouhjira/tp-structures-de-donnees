@@ -7,8 +7,11 @@ SOURCES += \
     TestListe.c \
     AllTests.c \
     CuTest/CuTest.c \
-    lib/liste.c
+    lib/liste.c \
+    lib/arbre.c \
+    TestArbre.c
 
 HEADERS += CuTest/CuTest.h \
-    lib/liste.h
+    lib/liste.h \
+    lib/arbre.h
 
