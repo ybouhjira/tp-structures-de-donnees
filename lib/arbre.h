@@ -16,4 +16,10 @@ void Afficher_arbre(Arbre *arbre, int indent);
 
 int Longueur_arbre(Arbre *arbre, int longeur);
 
+void Prefixe_arbre(Arbre *arbre);
+
+void Infixe_arbre(Arbre *arbre);
+
+void Postfixe_arbre(Arbre *arbre);
+
 #endif // ARBRE_H

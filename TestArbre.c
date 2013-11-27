@@ -7,6 +7,17 @@
 
 void Test_Longueur_arbre(CuTest *tc)
 {
+  /*
+   *   1
+   *  / \
+   * 2   3
+   *    / \
+   *   5   6
+   *      / \
+   *     8   7
+   *      \
+   *       9
+   */
     Arbre *arbre = Creer_Arbre(1);
     CuAssertIntEquals(tc, 0, Longueur_arbre(arbre, 0));
     arbre->gauche = Creer_Arbre(2);

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "arbre.h"
 
 Arbre* Creer_Arbre(int val)
@@ -23,13 +24,25 @@ void Detruire_arbre(Arbre *arbre)
 
 void Afficher_arbre(Arbre *arbre, int indent)
 {
+  assert(arbre);
   int i;
   for(i = 0; i < indent; ++i) printf(" ");
 
-  printf("%d\n", arbre->val);
+  printf(" --> %d\n", arbre->val);
 
-  if(arbre->gauche) Afficher_arbre(arbre->gauche, indent + 3);
-  if(arbre->droit) Afficher_arbre(arbre->droit, indent + 3);
+  int ajout = 4;
+  if(arbre->gauche) Afficher_arbre(arbre->gauche, indent + ajout);
+  else if(arbre->droit)
+    {
+      for(i = 0; i < indent + ajout; ++i) printf(" ");
+      printf(" --> NULL\n");
+    }
+  if(arbre->droit) Afficher_arbre(arbre->droit, indent + ajout);
+  else if(arbre->gauche)
+    {
+      for(i = 0; i < indent + ajout; ++i) printf(" ");
+      printf(" --> NULL\n");
+    }
 }
 
 int Longueur_arbre(Arbre *arbre, int longeur)
@@ -42,4 +55,35 @@ int Longueur_arbre(Arbre *arbre, int longeur)
       int lngDroit = Longueur_arbre(arbre->droit, longeur);
       return (lngDroit > lngGauche ? lngDroit : lngGauche) + 1;
     }
+}
+
+void Prefixe_arbre(Arbre *arbre)
+{
+  assert(arbre);
+  printf("%d, ", arbre->val);
+  if(arbre->gauche) Prefixe_arbre(arbre->gauche);
+  if(arbre->droit) Prefixe_arbre(arbre->droit);
+}
+
+void Infixe_arbre(Arbre *arbre)
+{
+  assert(arbre);
+
+  if(!arbre->gauche && !arbre->droit)
+    printf("%d, ", arbre->val);
+  else
+    {
+      if(arbre->gauche) Infixe_arbre(arbre->gauche);
+      printf("%d, ", arbre->val);
+      if(arbre->droit) Infixe_arbre(arbre->droit);
+    }
+}
+
+void Postfixe_arbre(Arbre *arbre)
+{
+  assert(arbre);
+
+  if(arbre->gauche) Postfixe_arbre(arbre->gauche);
+  if(arbre->droit) Postfixe_arbre(arbre->droit);
+  printf("%d, ", arbre->val);
 }
