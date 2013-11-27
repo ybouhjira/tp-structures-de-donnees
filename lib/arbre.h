@@ -24,4 +24,6 @@ void Postfixe_arbre(Arbre *arbre);
 
 void Inserer_arbre_ordnnee(Arbre **arbre, int val);
 
+void Supprimer_arbre_ordonnee(Arbre **arbre, int val);
+
 #endif // ARBRE_H

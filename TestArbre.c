@@ -34,6 +34,24 @@ void Test_Inserer_arbre_ordonnee(CuTest *tc)
 
 }
 
+void Test_Supprimer_arbre_ordonnee(CuTest *tc)
+{
+  srand(time(NULL));
+  Arbre *arbre = NULL;
+
+  int i;
+  for (i = 0; i < 10000; ++i) Inserer_arbre_ordnnee(&arbre, rand() % 10000);
+
+  // Etre sur que 100 existe
+  Inserer_arbre_ordnnee(&arbre, 100);
+
+  Supprimer_arbre_ordonnee(&arbre, 100);
+  Supprimer_arbre_ordonnee(&arbre, 100);
+  Supprimer_arbre_ordonnee(&arbre, 100);
+
+  CuAssertArbreOrdonnee(tc, arbre);
+}
+
 void Test_Longueur_arbre(CuTest *tc)
 {
   /*
@@ -73,5 +91,6 @@ CuSuite* Arbre_get_suite()
   CuSuite *suite = CuSuiteNew();
   SUITE_ADD_TEST(suite, Test_Longueur_arbre);
   SUITE_ADD_TEST(suite, Test_Inserer_arbre_ordonnee);
+  SUITE_ADD_TEST(suite, Test_Supprimer_arbre_ordonnee);
   return suite;
 }

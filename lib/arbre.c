@@ -94,7 +94,50 @@ void Inserer_arbre_ordnnee(Arbre **arbre, int val)
     *arbre = Creer_Arbre(val);
   else
     {
-      if(val > (*arbre)->val)  Inserer_arbre_ordnnee(&(*arbre)->droit, val);
+      if(val >= (*arbre)->val)  Inserer_arbre_ordnnee(&(*arbre)->droit, val);
       else Inserer_arbre_ordnnee(&(*arbre)->gauche, val);
+    }
+}
+
+Arbre* Fils_plus_a_droite(Arbre *arbre)
+{
+  if(!arbre->droit) return arbre;
+  else return Fils_plus_a_droite(arbre->droit);
+}
+
+void Supprimer_arbre_ordonnee(Arbre **arbre, int val)
+{
+  if(!(*arbre)) return;
+
+  if((*arbre)->val == val)
+    {
+      Supprimer_arbre_ordonnee(&(*arbre)->droit, val);
+      if(!(*arbre)->droit && !(*arbre)->gauche)
+        {
+          free(*arbre);
+          *arbre = NULL;
+        }
+      else if(((*arbre)->droit && !(*arbre)->gauche) ||
+        ((*arbre)->gauche && !(*arbre)->droit))
+        {
+          Arbre *fs = (*arbre)->droit? (*arbre)->droit : (*arbre)->gauche;
+          Arbre *ancien_arb = *arbre;
+          *arbre = fs;
+          free(ancien_arb);
+        }
+    else
+        {
+          Arbre *ancien_arb = *arbre;
+          *arbre = Fils_plus_a_droite((*arbre)->gauche);
+          (*arbre)->droit = ancien_arb->droit;
+          free(ancien_arb);
+        }
+    }
+  else
+    {
+      if(val >= (*arbre)->val)
+        Supprimer_arbre_ordonnee(&(*arbre)->droit, val);
+      if(val < (*arbre)->val)
+        Supprimer_arbre_ordonnee(&(*arbre)->gauche, val);
     }
 }
