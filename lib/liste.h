@@ -11,7 +11,7 @@ typedef struct Liste Liste;
  */
 typedef struct ElementListe
 {
-  int valeur;
+  void* val;
   struct ElementListe *suivant;
 } ElementListe;
 
@@ -22,7 +22,7 @@ typedef struct ElementListe
  * Description:
  *    Création et initialisation d'une liste chainée
  */
-Liste* Creer_liste();
+Liste* creer_liste();
 
 /*
  * Nom de la fonction: Detruire_liste
@@ -31,7 +31,7 @@ Liste* Creer_liste();
  * Description:
  *    Supprime la mémoire allouée pour une liste chainée
  */
-void Detruire_liste(Liste *liste);
+void detruire_liste(Liste **liste);
 
 /*
  * Nom de la fonction: Taille_liste
@@ -42,7 +42,7 @@ void Detruire_liste(Liste *liste);
  * Description:
  *    Retourne la taille de la liste
  */
-unsigned int Taille_liste(Liste *liste);
+unsigned int taille_liste(Liste *liste);
 
 /*
  * Nom de la fonction: Premier_liste
@@ -53,7 +53,7 @@ unsigned int Taille_liste(Liste *liste);
  * Description:
  *    Retourne le premier élément de la liste
  */
-ElementListe *Premier_liste(Liste *liste);
+ElementListe* premier_liste(Liste *liste);
 
 
 /*
@@ -65,7 +65,7 @@ ElementListe *Premier_liste(Liste *liste);
  * Description:
  *    Inserer l'élément val à la position pos
  */
-void Inserer_liste(Liste *liste, int val, unsigned int pos);
+void inserer_liste(Liste *liste, void* val, unsigned int pos);
 
 /*
  * Nom de la fonction:
@@ -75,6 +75,6 @@ void Inserer_liste(Liste *liste, int val, unsigned int pos);
  * Description:
  *    Supprime l'élément à la position indiquée
  */
-void Supprimer_liste(Liste *liste, unsigned int pos);
+void supprimer_liste(Liste *liste, unsigned int pos);
 
 #endif // LISTE_H

@@ -5,88 +5,77 @@
 
 #include "lib/liste.h"
 
-// Helpers
-void Debug_liste(Liste *liste)
-{
-  ElementListe *courant = Premier_liste(liste);
-  printf("liste->permier = %p\n", courant);
-  printf("liste->taille = %d\n", Taille_liste(liste));
-  int i = 0;
-  while(courant)
-    {
-      printf("\nliste[%d]->valeur = %d\n", i, courant->valeur);
-      printf("liste[%d]->suivant = %p\n", i++, courant->suivant);
-      courant = courant->suivant;
-    }
-}
-
 // Tests
 void Test_Inserer_Liste(CuTest *tc)
 {
-
   // Test 1:
-  Liste *liste = Creer_liste();
-  Inserer_liste(liste, 5, 0);
+  Liste *liste = creer_liste();
+  int val5 = 5;
+  inserer_liste(liste, &val5, 0);
 
-  CuAssertIntEquals(tc, 1, Taille_liste(liste));
-  CuAssertTrue(tc, 5 == Premier_liste(liste)->valeur);
-  CuAssertTrue(tc, NULL == Premier_liste(liste)->suivant);
+  CuAssertIntEquals(tc, 1, taille_liste(liste));
+  CuAssertTrue(tc, 5 == *(int *) premier_liste(liste)->val);
+  CuAssertTrue(tc, NULL == premier_liste(liste)->suivant);
 
   // Test 2:
   // insértion de plusieurs valeurs
   int nbr = 10;
-  Liste *liste2 = Creer_liste();
+  Liste *liste2 = creer_liste();
   int i;
-  for (i = 0; i < nbr; ++i) Inserer_liste(liste2, 2 * i, 0);
-
+  for (i = 0; i < nbr; ++i)
+    {
+      int i2 = i * 2;
+      inserer_liste(liste2, &i2, 0);
+    }
   // test des valeurs
-  ElementListe *courant = Premier_liste(liste2);
+  ElementListe *courant = premier_liste(liste2);
   for (i = 0; i < nbr; ++i, courant = courant->suivant)
-    CuAssertIntEquals(tc, 2 * (nbr - i - 1), courant->valeur);
+    CuAssertIntEquals(tc, 2 * (nbr - i - 1), *(int*) courant->val);
   CuAssertTrue(tc, NULL == courant);
 
   // Test 3:
-    Liste *liste3 = Creer_liste();
-    for(i = 0; i < 10; ++i) Inserer_liste(liste3, i, Taille_liste(liste3));
-    CuAssertIntEquals(tc, 10, Taille_liste(liste3));
+    Liste *liste3 = creer_liste();
+    for(i = 0; i < 10; ++i)
+      inserer_liste(liste3, &i, taille_liste(liste3));
+    CuAssertIntEquals(tc, 10, taille_liste(liste3));
 }
 
 void Test_Supprimer_Liste(CuTest *tc)
 {
-  Liste *liste = Creer_liste();
+  Liste *liste = creer_liste();
   int i;
-  for(i = 0; i < 4; ++i) Inserer_liste(liste, i, Taille_liste(liste));
+  for(i = 0; i < 4; ++i) inserer_liste(liste, &i, taille_liste(liste));
 
-  Supprimer_liste(liste, 0);
-  CuAssertIntEquals(tc, 3, Taille_liste(liste));
+  supprimer_liste(liste, 0);
+  CuAssertIntEquals(tc, 3, taille_liste(liste));
 
-  Supprimer_liste(liste, Taille_liste(liste) - 1);
-  CuAssertIntEquals(tc, 1, Premier_liste(liste)->valeur);
-  CuAssertIntEquals(tc, 2, Premier_liste(liste)->suivant->valeur);
+  supprimer_liste(liste, taille_liste(liste) - 1);
+  CuAssertIntEquals(tc, 1, *(int*) premier_liste(liste)->val);
+  CuAssertIntEquals(tc, 2, *(int*) premier_liste(liste)->suivant->val);
 
-  CuAssertIntEquals(tc, 2, Taille_liste(liste));
+  CuAssertIntEquals(tc, 2, taille_liste(liste));
 
   // Vider la liste
-  while(Taille_liste(liste)) Supprimer_liste(liste, 0);
+  while(taille_liste(liste)) supprimer_liste(liste, 0);
 
 
-  CuAssertIntEquals(tc, 0, Taille_liste(liste));
+  CuAssertIntEquals(tc, 0, taille_liste(liste));
 }
 
 void Test_Taille_Liste(CuTest *tc)
 {
-  Liste *liste = Creer_liste();
-  CuAssertIntEquals(tc, Taille_liste(liste), 0);
+  Liste *liste = creer_liste();
+  CuAssertIntEquals(tc, taille_liste(liste), 0);
 }
 
 void Test_Premier_liste(CuTest *tc)
 {
-  Liste *liste = Creer_liste();
+  Liste *liste = creer_liste();
   int i;
-  for (i = 0; i < 10; ++i) Inserer_liste(liste, i, Taille_liste(liste));
+  for (i = 0; i < 10; ++i) inserer_liste(liste, &i, taille_liste(liste));
 
-  CuAssertIntEquals(tc, 0, Premier_liste(liste)->valeur);
-  CuAssertIntEquals(tc, 1, Premier_liste(liste)->suivant->valeur);
+  CuAssertIntEquals(tc, 0, *(int*) premier_liste(liste)->val);
+  CuAssertIntEquals(tc, 1, *(int*) premier_liste(liste)->suivant->val);
 }
 
 

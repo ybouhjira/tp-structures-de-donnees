@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <printf.h>
+#include <string.h>
 
 struct Liste
 {
@@ -10,11 +11,15 @@ struct Liste
   ElementListe *premier;
 };
 
-
-Liste* Creer_liste()
+Liste* creer_liste()
 {
   // Allocation de la mémoire
   Liste *liste = malloc(sizeof(Liste));
+  if(!liste)
+    {
+      printf("Erreur d'allocation de mémoire\n");
+      exit(1);
+    }
 
   // Initialisation
   liste->taille = 0;
@@ -23,17 +28,17 @@ Liste* Creer_liste()
   return liste;
 }
 
-unsigned int Taille_liste(Liste *liste)
+unsigned int taille_liste(Liste *liste)
 {
   return liste->taille;
 }
 
-ElementListe* Premier_liste(Liste *liste)
+ElementListe* premier_liste(Liste *liste)
 {
   return liste->premier;
 }
 
-void Inserer_liste(Liste *liste, int val, unsigned int pos)
+void inserer_liste(Liste *liste, void *val, unsigned int pos)
 {
   // Conditions
   assert(pos <= liste->taille);
@@ -45,10 +50,11 @@ void Inserer_liste(Liste *liste, int val, unsigned int pos)
       printf("Erreur d'allcation de mémoire\n");
       exit(1);
     }
-  element->valeur = val;
+  element->val = malloc(sizeof(*val));
+  memcpy(element->val, val, sizeof(*val));
 
   // Insértion
-  if(pos == 0)
+  if(!pos)
     {
       if(liste->premier)
         {
@@ -73,15 +79,15 @@ void Inserer_liste(Liste *liste, int val, unsigned int pos)
   liste->taille++;
 }
 
-void Supprimer_liste(Liste *liste, unsigned int pos)
+void supprimer_liste(Liste *liste, unsigned int pos)
 {
   assert(pos < liste->taille);
 
+  ElementListe *elem;
   if(!pos)
     {
-      ElementListe *ancienPremier = liste->premier;
+      elem = liste->premier;
       liste->premier = liste->premier->suivant;
-      free(ancienPremier);
     }
   else
     {
@@ -89,16 +95,21 @@ void Supprimer_liste(Liste *liste, unsigned int pos)
       ElementListe *courant = liste->premier;
       for (i = 0; i < pos - 1; ++i) courant = courant->suivant;
 
-      ElementListe *cible = courant->suivant;
+      elem = courant->suivant;
       courant->suivant = courant->suivant->suivant;
-      free(cible);
     }
+
+  // Suppression de la mémoire allouée
+  free(elem->val);
+  free(elem);
+
   // Décrementer la taille
   liste->taille--;
 }
 
-void Detruire_liste(Liste *liste)
+void detruire_liste(Liste **liste)
 {
-  while(Taille_liste(liste)) Supprimer_liste(liste, 0);
-  free(liste);
+  while(taille_liste(*liste)) supprimer_liste(*liste, 0);
+  free(*liste);
+  liste = NULL;
 }
