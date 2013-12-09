@@ -11,7 +11,7 @@ struct Liste
   ElementListe *premier;
 };
 
-Liste* creer_liste()
+Liste* liste_creer()
 {
   // Allocation de la mémoire
   Liste *liste = malloc(sizeof(Liste));
@@ -28,17 +28,17 @@ Liste* creer_liste()
   return liste;
 }
 
-unsigned int taille_liste(Liste *liste)
+unsigned int liste_taille(Liste *liste)
 {
   return liste->taille;
 }
 
-ElementListe* premier_liste(Liste *liste)
+ElementListe* liste_premier(Liste *liste)
 {
   return liste->premier;
 }
 
-void inserer_liste(Liste *liste, void *val, unsigned int pos)
+void liste_inserer(Liste *liste, void *val, unsigned int pos)
 {
   // Conditions
   assert(pos <= liste->taille);
@@ -79,7 +79,7 @@ void inserer_liste(Liste *liste, void *val, unsigned int pos)
   liste->taille++;
 }
 
-void supprimer_liste(Liste *liste, unsigned int pos)
+void liste_supprimer(Liste *liste, unsigned int pos)
 {
   assert(pos < liste->taille);
 
@@ -107,9 +107,19 @@ void supprimer_liste(Liste *liste, unsigned int pos)
   liste->taille--;
 }
 
-void detruire_liste(Liste **liste)
+void liste_detruire(Liste **liste)
 {
-  while(taille_liste(*liste)) supprimer_liste(*liste, 0);
+  while(liste_taille(*liste)) liste_supprimer(*liste, 0);
   free(*liste);
   liste = NULL;
+}
+
+int liste_pos_val(void *val, Liste *liste)
+{
+  ElementListe *courant = liste->premier;
+  int pos;
+  for(pos = 0; courant; ++pos, courant = courant->suivant)
+      if(memcmp(courant->val, val, sizeof(*val)) == 0)
+         return pos;
+  return -1;
 }
