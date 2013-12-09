@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "CuTest/CuTest.h"
 
@@ -78,6 +79,11 @@ void Test_Premier_liste(CuTest *tc)
   CuAssertIntEquals(tc, 1, *(int*) liste_premier(liste)->suivant->val);
 }
 
+int compare(const void *elem1, const void *elem2)
+{
+  return memcmp(elem1, elem2, sizeof(*elem1));
+}
+
 void test_liste_pos(CuTest *tc)
 {
   Liste *liste = liste_creer();
@@ -86,9 +92,9 @@ void test_liste_pos(CuTest *tc)
     liste_inserer(liste, &i, liste_taille(liste));
 
   int val = 3;
-  CuAssertIntEquals(tc, 3, liste_pos_val(&val, liste));
+  CuAssertIntEquals(tc, 3, liste_pos_val(&val, liste, compare));
   val = 44;
-  CuAssertIntEquals(tc, -1, liste_pos_val(&val, liste));
+  CuAssertIntEquals(tc, -1, liste_pos_val(&val, liste, compare));
   liste_detruire(&liste);
 }
 

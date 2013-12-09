@@ -114,12 +114,13 @@ void liste_detruire(Liste **liste)
   liste = NULL;
 }
 
-int liste_pos_val(void *val, Liste *liste)
+int liste_pos_val(void *val, Liste *liste,
+                  int (*cmp)(const void *, const void *))
 {
   ElementListe *courant = liste->premier;
   int pos;
   for(pos = 0; courant; ++pos, courant = courant->suivant)
-      if(memcmp(courant->val, val, sizeof(*val)) == 0)
+      if(cmp(courant->val, val) == 0)
          return pos;
   return -1;
 }
