@@ -98,9 +98,26 @@ void test_liste_pos(CuTest *tc)
   liste_detruire(&liste);
 }
 
+void test_liste_acceder(CuTest *tc)
+{
+  Liste *liste = liste_creer();
+  int i;
+  for(i = 0; i < 10; ++i)
+      liste_inserer(liste, &i, liste_taille(liste));
+
+  ElementListe *courant = liste_premier(liste);
+  for(i = 0; i < 10; i++, courant = courant->suivant)
+    printf("val = %d \n", *(int*) courant->val);
+
+  CuAssertIntEquals(tc, 0, *(int*) liste_acceder(liste, 0)->val);
+
+  liste_detruire(&liste);
+}
+
 CuSuite* Liste_get_suite()
 {
   CuSuite *suite = CuSuiteNew();
+  SUITE_ADD_TEST(suite, test_liste_acceder);
   SUITE_ADD_TEST(suite, Test_Inserer_Liste);
   SUITE_ADD_TEST(suite, Test_Premier_liste);
   SUITE_ADD_TEST(suite, Test_Supprimer_Liste);

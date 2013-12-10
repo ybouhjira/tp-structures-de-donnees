@@ -7,7 +7,7 @@
 
 struct Liste
 {
-  unsigned int taille;
+  int taille;
   ElementListe *premier;
 };
 
@@ -28,7 +28,7 @@ Liste* liste_creer()
   return liste;
 }
 
-unsigned int liste_taille(Liste *liste)
+int liste_taille(Liste *liste)
 {
   return liste->taille;
 }
@@ -38,9 +38,10 @@ ElementListe* liste_premier(Liste *liste)
   return liste->premier;
 }
 
-void liste_inserer(Liste *liste, void *val, unsigned int pos)
+void liste_inserer(Liste *liste, void *val, int pos)
 {
   // Conditions
+  assert(pos >= 0);
   assert(pos <= liste->taille);
 
   // Nouvel élément pour la valeur
@@ -50,7 +51,7 @@ void liste_inserer(Liste *liste, void *val, unsigned int pos)
       printf("Erreur d'allcation de mémoire\n");
       exit(1);
     }
-  element->val = malloc(sizeof(*val));
+  element->val = calloc(1, sizeof(*val));
   memcpy(element->val, val, sizeof(*val));
 
   // Insértion
@@ -68,7 +69,7 @@ void liste_inserer(Liste *liste, void *val, unsigned int pos)
   else
     {
       ElementListe *courant = liste->premier;
-      unsigned int i;
+      int i;
       for(i = 0; i < pos - 1; ++i) courant = courant->suivant;
 
       element->suivant = courant->suivant;
@@ -79,7 +80,7 @@ void liste_inserer(Liste *liste, void *val, unsigned int pos)
   liste->taille++;
 }
 
-void liste_supprimer(Liste *liste, unsigned int pos)
+void liste_supprimer(Liste *liste, int pos)
 {
   assert(pos < liste->taille);
 
@@ -91,7 +92,7 @@ void liste_supprimer(Liste *liste, unsigned int pos)
     }
   else
     {
-      unsigned int i;
+      int i;
       ElementListe *courant = liste->premier;
       for (i = 0; i < pos - 1; ++i) courant = courant->suivant;
 
@@ -123,4 +124,16 @@ int liste_pos_val(void *val, Liste *liste,
       if(cmp(courant->val, val) == 0)
          return pos;
   return -1;
+}
+
+ElementListe* liste_acceder(Liste *liste, int pos)
+{
+  assert(pos >= 0);
+  assert(pos < liste_taille(liste));
+
+  ElementListe *courant = liste->premier;
+  int i;
+  for(i = 0; i < pos ; ++i) courant = courant->suivant;
+
+  return courant;
 }

@@ -38,7 +38,7 @@ void liste_detruire(Liste **liste);
  * Description:
  *    Retourne la taille de la liste
  */
-unsigned int liste_taille(Liste *liste);
+int liste_taille(Liste *liste);
 
 /* Entrées :
  *    Liste *liste : Une liste chainée
@@ -53,11 +53,11 @@ ElementListe* liste_premier(Liste *liste);
 /* Entrées :
  *    Liste *liste : Une liste chainée
  *    int val : La valeur à inserer
- *    unsigned int pos : La position de l'insertion
+ *    int pos : La position de l'insertion
  * Description:
  *    Inserer l'élément val à la position pos
  */
-void liste_inserer(Liste *liste, void* val, unsigned int pos);
+void liste_inserer(Liste *liste, void* val, int pos);
 
 /* Entrées :
  *    Liste *liste : Une liste chainée
@@ -65,7 +65,7 @@ void liste_inserer(Liste *liste, void* val, unsigned int pos);
  * Description:
  *    Supprime l'élément à la position indiquée
  */
-void liste_supprimer(Liste *liste, unsigned int pos);
+void liste_supprimer(Liste *liste, int pos);
 
 /* Entrées :
  *    void *val : Valeur recherché
@@ -81,5 +81,15 @@ void liste_supprimer(Liste *liste, unsigned int pos);
  */
 int liste_pos_val(void* val, Liste *liste,
                   int (*cmp)(const void*, const void*));
+
+/* Entrées :
+ *  Liste *liste : Une liste
+ *  int pos : La position
+ * Sorties :
+ *  ElementListe *element : L'élément à la position pos
+ * Description:
+ *    Retourne l'élément à la postion pos dans la liste
+ */
+ElementListe* liste_acceder(Liste *liste, int pos);
 
 #endif // LISTE_H
