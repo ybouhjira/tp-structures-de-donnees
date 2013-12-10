@@ -79,9 +79,9 @@ void Test_Premier_liste(CuTest *tc)
   CuAssertIntEquals(tc, 1, *(int*) liste_premier(liste)->suivant->val);
 }
 
-int compare(const void *elem1, const void *elem2)
+int compare_int(const void *elem1, const void *elem2)
 {
-  return memcmp(elem1, elem2, sizeof(*elem1));
+  return *(int*) elem1 - *(int*) elem2;
 }
 
 void test_liste_pos(CuTest *tc)
@@ -92,9 +92,9 @@ void test_liste_pos(CuTest *tc)
     liste_inserer(liste, &i, liste_taille(liste));
 
   int val = 3;
-  CuAssertIntEquals(tc, 3, liste_pos_val(&val, liste, compare));
+  CuAssertIntEquals(tc, 3, liste_recherche(&val, liste, compare_int));
   val = 44;
-  CuAssertIntEquals(tc, -1, liste_pos_val(&val, liste, compare));
+  CuAssertIntEquals(tc, -1, liste_recherche(&val, liste, compare_int));
   liste_detruire(&liste);
 }
 
@@ -105,13 +105,45 @@ void test_liste_acceder(CuTest *tc)
   for(i = 0; i < 10; ++i)
       liste_inserer(liste, &i, liste_taille(liste));
 
-  ElementListe *courant = liste_premier(liste);
-  for(i = 0; i < 10; i++, courant = courant->suivant)
-    printf("val = %d \n", *(int*) courant->val);
-
   CuAssertIntEquals(tc, 0, *(int*) liste_acceder(liste, 0)->val);
 
   liste_detruire(&liste);
+}
+
+void test_liste_intersection(CuTest *tc)
+{
+  Liste *liste1 = liste_creer(), *liste2 = liste_creer();
+
+  int val = 1;
+  liste_inserer(liste1, &val, 0);
+  val = 2;
+  liste_inserer(liste1, &val, 0);
+  val = 3;
+  liste_inserer(liste1, &val, 0);
+  val = 4;
+  liste_inserer(liste1, &val, 0);
+
+
+
+  val = 3;
+  liste_inserer(liste2, &val, 0);
+  val = 4;
+  liste_inserer(liste2, &val, 0);
+  val = 5;
+  liste_inserer(liste2, &val, 0);
+  val = 6;
+  liste_inserer(liste2, &val, 0);
+
+
+  Liste *intersect = liste_intersection(liste1, liste2, compare_int);
+
+  CuAssertIntEquals(tc, liste_taille(intersect), 2);
+  val = 3;
+  CuAssertTrue(tc, -1 != liste_recherche(&val, intersect, compare_int));
+  val = 4;
+  CuAssertTrue(tc, -1 != liste_recherche(&val, intersect, compare_int));
+  liste_detruire(&liste1);
+  liste_detruire(&liste2);
 }
 
 CuSuite* Liste_get_suite()
@@ -123,6 +155,7 @@ CuSuite* Liste_get_suite()
   SUITE_ADD_TEST(suite, Test_Supprimer_Liste);
   SUITE_ADD_TEST(suite, Test_Taille_Liste);
   SUITE_ADD_TEST(suite, test_liste_pos);
+  SUITE_ADD_TEST(suite, test_liste_intersection);
   return suite;
 }
 

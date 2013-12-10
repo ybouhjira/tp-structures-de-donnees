@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <printf.h>
 #include <string.h>
 
 struct Liste
@@ -115,7 +114,7 @@ void liste_detruire(Liste **liste)
   liste = NULL;
 }
 
-int liste_pos_val(void *val, Liste *liste,
+int liste_recherche(void *val, Liste *liste,
                   int (*cmp)(const void *, const void *))
 {
   ElementListe *courant = liste->premier;
@@ -136,4 +135,20 @@ ElementListe* liste_acceder(Liste *liste, int pos)
   for(i = 0; i < pos ; ++i) courant = courant->suivant;
 
   return courant;
+}
+
+Liste* liste_intersection(Liste *l1, Liste *l2,
+                          int cmp(const void *, const void *))
+{
+  Liste *intersect = liste_creer();
+  if(!l1 && !l2) return intersect;
+
+  ElementListe *courant;
+  for(courant = l1->premier; courant; courant = courant->suivant )
+    {
+      if(liste_recherche(courant->val, l2, cmp) >= 0)
+        liste_inserer(intersect, courant->val, liste_taille(intersect));
+    }
+
+  return intersect;
 }

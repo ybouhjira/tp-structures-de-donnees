@@ -79,17 +79,29 @@ void liste_supprimer(Liste *liste, int pos);
  * Description:
  *    Retourne la position de la valeur val dans la liste
  */
-int liste_pos_val(void* val, Liste *liste,
+int liste_recherche(void* val, Liste *liste,
                   int (*cmp)(const void*, const void*));
 
 /* Entrées :
  *  Liste *liste : Une liste
  *  int pos : La position
+ *  cmp : fonction de comparaison entre deux éléments de la liste
  * Sorties :
  *  ElementListe *element : L'élément à la position pos
  * Description:
  *    Retourne l'élément à la postion pos dans la liste
  */
 ElementListe* liste_acceder(Liste *liste, int pos);
+
+/* Entrées :
+ *  Liste *l1 : première liste
+ *  Liste *l2 : deuxième liste
+ * Sorties :
+ *  Liste* intersect : intersection des deux listes
+ * Description:
+ *    Retourne l'intersection de deux listes
+ */
+Liste *liste_intersection(Liste *l1, Liste *l2,
+                          int cmp(const void *, const void *));
 
 #endif // LISTE_H
