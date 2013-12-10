@@ -152,3 +152,44 @@ Liste* liste_intersection(Liste *l1, Liste *l2,
 
   return intersect;
 }
+
+//void liste_tri_bulles(Liste *liste, int cmp(const void *, const void *))
+//{
+//
+//}
+
+void liste_echange(Liste *liste, int pos1, int pos2)
+{
+  assert(pos1 >= 0);
+  assert(pos1 < liste_taille(liste));
+  assert(pos2 >= 0);
+  assert(pos2 < liste_taille(liste));
+
+  int min = (pos1 < pos2)? pos1 : pos2;
+  int max = (pos1 == min)? pos2 : pos1;
+
+  ElementListe *elemMin = liste->premier, *elemMax = liste->premier;
+
+  int i;
+  for(i = 0; i < min - 1; ++i, elemMin = elemMin->suivant);
+  elemMax = elemMin;
+  for(i = i; i < max - 1; ++i, elemMax = elemMax->suivant);
+
+  ElementListe *minSuivSuiv = elemMin->suivant->suivant;
+  elemMin->suivant->suivant = elemMax->suivant->suivant;
+  elemMax->suivant->suivant = minSuivSuiv;
+
+  ElementListe *minSuiv = elemMin->suivant;
+  elemMin->suivant = elemMax->suivant;
+  elemMax->suivant = minSuiv;
+}
+
+void liste_ajout_debut(Liste *liste, void *val)
+{
+  liste_inserer(liste, val, 0);
+}
+
+void liste_ajout_fin(Liste *liste, void *val)
+{
+  liste_inserer(liste, val, liste_taille(liste));
+}

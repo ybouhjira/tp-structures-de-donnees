@@ -104,4 +104,27 @@ ElementListe* liste_acceder(Liste *liste, int pos);
 Liste *liste_intersection(Liste *l1, Liste *l2,
                           int cmp(const void *, const void *));
 
+
+/* Entrées :
+ *    Liste *liste : Une liste chainée
+ *    cmp : fonction de comparaison de deux éléments
+ * Description:
+ *    Fait le tri à bulle de la liste
+ */
+//void liste_tri_bulles(Liste *liste, int cmp(const void *, const void*));
+
+
+/* Entrées :
+ *    Liste *liste : Une liste chainée
+ *    int pos1 : première position
+ *    int pos2 : deuxième position
+ * Description:
+ *    Echange les éléments aux positions pos1 et pos2
+ */
+void liste_echange(Liste *liste, int pos1, int pos2);
+
+void liste_ajout_fin(Liste *liste, void *val);
+
+void liste_ajout_debut(Liste *liste, void *val);
+
 #endif // LISTE_H

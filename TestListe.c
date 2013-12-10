@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <time.h>
 #include "CuTest/CuTest.h"
 
 #include "lib/liste.h"
@@ -123,8 +123,6 @@ void test_liste_intersection(CuTest *tc)
   val = 4;
   liste_inserer(liste1, &val, 0);
 
-
-
   val = 3;
   liste_inserer(liste2, &val, 0);
   val = 4;
@@ -146,6 +144,21 @@ void test_liste_intersection(CuTest *tc)
   liste_detruire(&liste2);
 }
 
+void test_liste_echange(CuTest *tc)
+{
+  Liste *liste = liste_creer();
+  int i;
+  for(i = 0; i < 10; ++i) liste_ajout_fin(liste, &i);
+  liste_echange(liste, 4, 6);
+
+  ElementListe *courant;
+  for(courant = liste_premier(liste); courant; courant = courant->suivant)
+    printf("val : %d\n", *(int*)courant->val);
+  CuAssertIntEquals(tc, 6, *(int*)liste_acceder(liste, 4)->val);
+  CuAssertIntEquals(tc, 4, *(int*)liste_acceder(liste, 6)->val);
+  liste_detruire(&liste);
+}
+
 CuSuite* Liste_get_suite()
 {
   CuSuite *suite = CuSuiteNew();
@@ -156,6 +169,7 @@ CuSuite* Liste_get_suite()
   SUITE_ADD_TEST(suite, Test_Taille_Liste);
   SUITE_ADD_TEST(suite, test_liste_pos);
   SUITE_ADD_TEST(suite, test_liste_intersection);
+  SUITE_ADD_TEST(suite, test_liste_echange);
   return suite;
 }
 
