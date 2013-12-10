@@ -102,7 +102,7 @@ ElementListe* liste_acceder(Liste *liste, int pos);
  *    Retourne l'intersection de deux listes
  */
 Liste *liste_intersection(Liste *l1, Liste *l2,
-                          int cmp(const void *, const void *));
+                          int (*cmp)(const void *, const void *));
 
 
 /* Entrées :
@@ -111,7 +111,7 @@ Liste *liste_intersection(Liste *l1, Liste *l2,
  * Description:
  *    Fait le tri à bulle de la liste
  */
-//void liste_tri_bulles(Liste *liste, int cmp(const void *, const void*));
+void liste_tri_bulles(Liste *liste, int (*cmp)(const void *, const void*));
 
 
 /* Entrées :

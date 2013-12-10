@@ -81,7 +81,9 @@ void Test_Premier_liste(CuTest *tc)
 
 int compare_int(const void *elem1, const void *elem2)
 {
-  return *(int*) elem1 - *(int*) elem2;
+  int *e1 = (int*) elem1;
+  int *e2 = (int*) elem2;
+  return *e1 - *e2;
 }
 
 void test_liste_pos(CuTest *tc)
@@ -151,11 +153,39 @@ void test_liste_echange(CuTest *tc)
   for(i = 0; i < 10; ++i) liste_ajout_fin(liste, &i);
   liste_echange(liste, 4, 6);
 
-  ElementListe *courant;
-  for(courant = liste_premier(liste); courant; courant = courant->suivant)
-    printf("val : %d\n", *(int*)courant->val);
   CuAssertIntEquals(tc, 6, *(int*)liste_acceder(liste, 4)->val);
   CuAssertIntEquals(tc, 4, *(int*)liste_acceder(liste, 6)->val);
+
+  liste_echange(liste, 0, 9);
+  CuAssertIntEquals(tc, 10, liste_taille(liste));
+  CuAssertIntEquals(tc, 0, *(int*)liste_acceder(liste, 9)->val);
+  CuAssertIntEquals(tc, 9, *(int*)liste_acceder(liste, 0)->val);
+
+  liste_detruire(&liste);
+}
+
+void test_liste_tri_bulles(CuTest *tc)
+{
+  // Remplissage de liste avec des nombres aléatoires
+  srand(time(NULL));
+  Liste *liste = liste_creer();
+
+  int i;
+  for(i = 0; i < 10; ++i)
+    {
+      int val = rand() % 100;
+      liste_ajout_fin(liste, &val);
+    }
+
+  liste_tri_bulles(liste, compare_int);
+  CuAssertIntEquals(tc, 10, liste_taille(liste));
+
+  // Test
+  ElementListe *courant;
+  for(courant = liste_premier(liste); courant->suivant;
+      courant = courant->suivant)
+    CuAssertTrue(tc, *(int*)courant->val <= *(int*)courant->suivant->val);
+
   liste_detruire(&liste);
 }
 
@@ -170,6 +200,7 @@ CuSuite* Liste_get_suite()
   SUITE_ADD_TEST(suite, test_liste_pos);
   SUITE_ADD_TEST(suite, test_liste_intersection);
   SUITE_ADD_TEST(suite, test_liste_echange);
+  SUITE_ADD_TEST(suite, test_liste_tri_bulles);
   return suite;
 }
 

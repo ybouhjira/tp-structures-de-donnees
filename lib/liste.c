@@ -115,13 +115,13 @@ void liste_detruire(Liste **liste)
 }
 
 int liste_recherche(void *val, Liste *liste,
-                  int (*cmp)(const void *, const void *))
+                    int (*cmp)(const void *, const void *))
 {
   ElementListe *courant = liste->premier;
   int pos;
   for(pos = 0; courant; ++pos, courant = courant->suivant)
-      if(cmp(courant->val, val) == 0)
-         return pos;
+    if(cmp(courant->val, val) == 0)
+      return pos;
   return -1;
 }
 
@@ -138,7 +138,7 @@ ElementListe* liste_acceder(Liste *liste, int pos)
 }
 
 Liste* liste_intersection(Liste *l1, Liste *l2,
-                          int cmp(const void *, const void *))
+                          int (*cmp)(const void *, const void *))
 {
   Liste *intersect = liste_creer();
   if(!l1 && !l2) return intersect;
@@ -153,10 +153,29 @@ Liste* liste_intersection(Liste *l1, Liste *l2,
   return intersect;
 }
 
-//void liste_tri_bulles(Liste *liste, int cmp(const void *, const void *))
-//{
-//
-//}
+void echange_valeurs(void **val1, void **val2)
+{
+  void *sauvegarde = *val1;
+  *val1 = *val2;
+  *val2 = sauvegarde;
+}
+
+void liste_tri_bulles(Liste *liste, int (*cmp)(const void *, const void *))
+{
+  ElementListe *fin;
+
+  while(fin != liste_premier(liste))
+    {
+      ElementListe *courant = liste_premier(liste);
+      while(courant->suivant && courant->suivant != fin )
+        {
+          if(cmp(courant->val, courant->suivant->val) > 0)
+            echange_valeurs(&(courant->val), &(courant->suivant->val));
+          courant = courant->suivant;
+        }
+      fin = courant;
+    }
+}
 
 void liste_echange(Liste *liste, int pos1, int pos2)
 {
@@ -165,23 +184,12 @@ void liste_echange(Liste *liste, int pos1, int pos2)
   assert(pos2 >= 0);
   assert(pos2 < liste_taille(liste));
 
-  int min = (pos1 < pos2)? pos1 : pos2;
-  int max = (pos1 == min)? pos2 : pos1;
+  ElementListe *elem1 = liste_acceder(liste, pos1);
+  ElementListe *elem2 = liste_acceder(liste, pos2);
 
-  ElementListe *elemMin = liste->premier, *elemMax = liste->premier;
-
-  int i;
-  for(i = 0; i < min - 1; ++i, elemMin = elemMin->suivant);
-  elemMax = elemMin;
-  for(i = i; i < max - 1; ++i, elemMax = elemMax->suivant);
-
-  ElementListe *minSuivSuiv = elemMin->suivant->suivant;
-  elemMin->suivant->suivant = elemMax->suivant->suivant;
-  elemMax->suivant->suivant = minSuivSuiv;
-
-  ElementListe *minSuiv = elemMin->suivant;
-  elemMin->suivant = elemMax->suivant;
-  elemMax->suivant = minSuiv;
+  void *sauvegarde = elem1->val;
+  elem1->val = elem2->val;
+  elem2->val = sauvegarde;
 }
 
 void liste_ajout_debut(Liste *liste, void *val)
