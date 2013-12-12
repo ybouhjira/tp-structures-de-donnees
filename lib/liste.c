@@ -228,3 +228,50 @@ void liste_insertion_ordonnee(Liste *liste, int val)
   liste->taille++;
 }
 
+void liste_afficher(Liste *liste)
+{
+  ElementListe *courant = liste_premier(liste);
+  int i = 0;
+  while (courant)
+    {
+      printf("element %d : %d \n", i++, courant->val);
+      courant = courant->suivant;
+    }
+}
+
+ElementListe* insert_sort(ElementListe *liste) {
+  // Liste vide
+  if(liste == NULL || liste->suivant == NULL)
+    return liste;
+  // head is the first element ofrted list
+  ElementListe * tete = NULL;
+  while(liste != NULL) {
+      ElementListe * courant = liste;
+      liste = liste->suivant;
+      if(tete == NULL || courant->val < tete->val) {
+          // Insertion en tete
+          courant->suivant = tete;
+          tete = courant;
+        } else {
+          // Insertion au milieu
+          ElementListe * p = tete;
+          while(p != NULL) {
+              if(p->suivant == NULL || // dernier element de la liste triee
+                 courant->val < p->suivant->val) // milieu de la liste
+                {
+                  courant->suivant = p->suivant;
+                  p->suivant = courant;
+                  break; // done
+                }
+              p = p->suivant;
+            }
+        }
+    }
+  return tete;
+}
+
+void liste_tri_insertion(Liste *liste)
+{
+  liste->premier = insert_sort(liste->premier);
+}
+
