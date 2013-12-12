@@ -197,3 +197,34 @@ void liste_ajout_fin(Liste *liste, int val)
 {
   liste_inserer(liste, val, liste_taille(liste));
 }
+
+void liste_insertion_ordonnee(Liste *liste, int val)
+{
+  // Création d'un nouvel élément
+  ElementListe *nouveau = calloc(1, sizeof(ElementListe));
+  nouveau->val = val;
+
+  // Insertion
+  if(!liste->premier)
+    liste->premier = nouveau;
+  else
+    {
+      ElementListe *courant = liste_premier(liste), *precedent = NULL;
+      while(courant)
+        {
+          if(val < courant->val)
+            {
+              if(precedent) precedent->suivant = nouveau;
+              else liste->premier = nouveau;
+              nouveau->suivant = courant;
+              break;
+            }
+          precedent = courant;
+          courant = courant->suivant;
+        }
+      // Ajouter à la fin
+      precedent->suivant = nouveau;
+    }
+  liste->taille++;
+}
+

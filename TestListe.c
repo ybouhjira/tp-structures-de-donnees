@@ -162,6 +162,24 @@ void test_liste_tri_bulles(CuTest *tc)
   liste_detruire(&liste);
 }
 
+void test_liste_insertion_ordonnee(CuTest *tc)
+{
+  Liste *liste = liste_creer();
+
+  // Remplissage
+  int i;
+  for (i = 0; i < 10; ++i) if(i != 3) liste_insertion_ordonnee(liste, i);
+
+  liste_insertion_ordonnee(liste, 3);
+
+  // Test
+  ElementListe *courant = liste_premier(liste);
+  for(i = 0; courant ; courant = courant->suivant, ++i)
+   CuAssertIntEquals(tc, i, courant->val);
+
+  liste_detruire(&liste);
+}
+
 CuSuite* Liste_get_suite()
 {
   CuSuite *suite = CuSuiteNew();
@@ -174,6 +192,7 @@ CuSuite* Liste_get_suite()
   SUITE_ADD_TEST(suite, test_liste_intersection);
   SUITE_ADD_TEST(suite, test_liste_echange);
   SUITE_ADD_TEST(suite, test_liste_tri_bulles);
+  SUITE_ADD_TEST(suite, test_liste_insertion_ordonnee);
   return suite;
 }
 

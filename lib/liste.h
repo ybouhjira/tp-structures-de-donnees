@@ -125,4 +125,5 @@ void liste_ajout_fin(Liste *liste, int val);
 
 void liste_ajout_debut(Liste *liste, int val);
 
+void liste_insertion_ordonnee(Liste *liste, int val);
 #endif // LISTE_H
