@@ -13,7 +13,7 @@ typedef struct Liste Liste;
  */
 typedef struct ElementListe
 {
-  void* val;
+  int val;
   struct ElementListe *suivant;
 } ElementListe;
 
@@ -57,7 +57,7 @@ ElementListe* liste_premier(Liste *liste);
  * Description:
  *    Inserer l'élément val à la position pos
  */
-void liste_inserer(Liste *liste, void* val, int pos);
+void liste_inserer(Liste *liste, int val, int pos);
 
 /* Entrées :
  *    Liste *liste : Une liste chainée
@@ -70,7 +70,7 @@ void liste_supprimer(Liste *liste, int pos);
 /* Entrées :
  *    void *val : Valeur recherché
  *    Liste *liste : Une liste
- *    int cmp(void* elem1, void* elem2, size_t) : fonction de comparaison
+ *    int cmp(int elem1, int elem2, size_t) : fonction de comparaison
  * doit retourner 0 si elem1 égale elem2, un nombre négatif ou négatif
  * respectivement si elem1 < elem2 ou elem1 > elem2.
  * Sorties :
@@ -79,8 +79,7 @@ void liste_supprimer(Liste *liste, int pos);
  * Description:
  *    Retourne la position de la valeur val dans la liste
  */
-int liste_recherche(void* val, Liste *liste,
-                  int (*cmp)(const void*, const void*));
+int liste_recherche(int val, Liste *liste);
 
 /* Entrées :
  *  Liste *liste : Une liste
@@ -101,8 +100,7 @@ ElementListe* liste_acceder(Liste *liste, int pos);
  * Description:
  *    Retourne l'intersection de deux listes
  */
-Liste *liste_intersection(Liste *l1, Liste *l2,
-                          int (*cmp)(const void *, const void *));
+Liste *liste_intersection(Liste *l1, Liste *l2);
 
 
 /* Entrées :
@@ -111,7 +109,7 @@ Liste *liste_intersection(Liste *l1, Liste *l2,
  * Description:
  *    Fait le tri à bulle de la liste
  */
-void liste_tri_bulles(Liste *liste, int (*cmp)(const void *, const void*));
+void liste_tri_bulles(Liste *liste);
 
 
 /* Entrées :
@@ -123,8 +121,8 @@ void liste_tri_bulles(Liste *liste, int (*cmp)(const void *, const void*));
  */
 void liste_echange(Liste *liste, int pos1, int pos2);
 
-void liste_ajout_fin(Liste *liste, void *val);
+void liste_ajout_fin(Liste *liste, int val);
 
-void liste_ajout_debut(Liste *liste, void *val);
+void liste_ajout_debut(Liste *liste, int val);
 
 #endif // LISTE_H

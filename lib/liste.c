@@ -37,7 +37,7 @@ ElementListe* liste_premier(Liste *liste)
   return liste->premier;
 }
 
-void liste_inserer(Liste *liste, void *val, int pos)
+void liste_inserer(Liste *liste, int val, int pos)
 {
   // Conditions
   assert(pos >= 0);
@@ -50,8 +50,7 @@ void liste_inserer(Liste *liste, void *val, int pos)
       printf("Erreur d'allcation de mémoire\n");
       exit(1);
     }
-  element->val = calloc(1, sizeof(*val));
-  memcpy(element->val, val, sizeof(*val));
+  element->val = val;
 
   // Insértion
   if(!pos)
@@ -100,7 +99,6 @@ void liste_supprimer(Liste *liste, int pos)
     }
 
   // Suppression de la mémoire allouée
-  free(elem->val);
   free(elem);
 
   // Décrementer la taille
@@ -114,13 +112,12 @@ void liste_detruire(Liste **liste)
   liste = NULL;
 }
 
-int liste_recherche(void *val, Liste *liste,
-                    int (*cmp)(const void *, const void *))
+int liste_recherche(int val, Liste *liste)
 {
   ElementListe *courant = liste->premier;
   int pos;
   for(pos = 0; courant; ++pos, courant = courant->suivant)
-    if(cmp(courant->val, val) == 0)
+    if(courant->val == val)
       return pos;
   return -1;
 }
@@ -137,8 +134,7 @@ ElementListe* liste_acceder(Liste *liste, int pos)
   return courant;
 }
 
-Liste* liste_intersection(Liste *l1, Liste *l2,
-                          int (*cmp)(const void *, const void *))
+Liste* liste_intersection(Liste *l1, Liste *l2)
 {
   Liste *intersect = liste_creer();
   if(!l1 && !l2) return intersect;
@@ -146,21 +142,21 @@ Liste* liste_intersection(Liste *l1, Liste *l2,
   ElementListe *courant;
   for(courant = l1->premier; courant; courant = courant->suivant )
     {
-      if(liste_recherche(courant->val, l2, cmp) >= 0)
+      if(liste_recherche(courant->val, l2) >= 0)
         liste_inserer(intersect, courant->val, liste_taille(intersect));
     }
 
   return intersect;
 }
 
-void echange_valeurs(void **val1, void **val2)
+void echange_valeurs(int *val1, int *val2)
 {
-  void *sauvegarde = *val1;
+  int sauvegarde = *val1;
   *val1 = *val2;
   *val2 = sauvegarde;
 }
 
-void liste_tri_bulles(Liste *liste, int (*cmp)(const void *, const void *))
+void liste_tri_bulles(Liste *liste)
 {
   ElementListe *fin;
 
@@ -169,7 +165,7 @@ void liste_tri_bulles(Liste *liste, int (*cmp)(const void *, const void *))
       ElementListe *courant = liste_premier(liste);
       while(courant->suivant && courant->suivant != fin )
         {
-          if(cmp(courant->val, courant->suivant->val) > 0)
+          if(courant->val> courant->suivant->val)
             echange_valeurs(&(courant->val), &(courant->suivant->val));
           courant = courant->suivant;
         }
@@ -187,17 +183,17 @@ void liste_echange(Liste *liste, int pos1, int pos2)
   ElementListe *elem1 = liste_acceder(liste, pos1);
   ElementListe *elem2 = liste_acceder(liste, pos2);
 
-  void *sauvegarde = elem1->val;
+  int sauvegarde = elem1->val;
   elem1->val = elem2->val;
   elem2->val = sauvegarde;
 }
 
-void liste_ajout_debut(Liste *liste, void *val)
+void liste_ajout_debut(Liste *liste, int val)
 {
   liste_inserer(liste, val, 0);
 }
 
-void liste_ajout_fin(Liste *liste, void *val)
+void liste_ajout_fin(Liste *liste, int val)
 {
   liste_inserer(liste, val, liste_taille(liste));
 }
