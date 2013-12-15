@@ -94,7 +94,7 @@ Liste *liste_intersection(Liste *l1, Liste *l2);
  * Description:
  *    Fait le tri à bulle de la liste
  */
-void liste_tri_bulles(Liste **liste);
+void liste_tri_bulles(Liste *liste);
 
 
 /* Entrées :

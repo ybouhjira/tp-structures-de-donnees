@@ -150,14 +150,31 @@ void test_liste_tri_bulles(CuTest *tc)
   int i;
   for(i = 0; i < 10; ++i) liste_ajout_fin(&liste, rand() % 100);
 
-  liste_tri_bulles(&liste);
+  liste_tri_bulles(liste);
   CuAssertIntEquals(tc, 10, liste_taille(liste));
 
   // Test
   Liste *courant;
-  for(courant = liste; courant->suiv;
-      courant = courant->suiv)
+  for(courant = liste; courant->suiv; courant = courant->suiv) {
     CuAssertTrue(tc, courant->val <= courant->suiv->val);
+  }
+
+  liste_detruire(&liste);
+}
+
+void test_liste_ajout_fin(CuTest *tc)
+{
+  Liste *liste = NULL;
+
+  int i;
+  for(i = 0; i < 10; ++i) liste_ajout_fin(&liste, i);
+
+  CuAssertIntEquals(tc, 10, liste_taille(liste));
+
+  // Test
+  Liste *courant;
+  for(i = 0, courant = liste; courant; courant = courant->suiv, ++i)
+    CuAssertIntEquals(tc, i, courant->val);
 
   liste_detruire(&liste);
 }
@@ -174,6 +191,7 @@ CuSuite* Liste_get_suite()
   SUITE_ADD_TEST(suite, test_liste_intersection);
   SUITE_ADD_TEST(suite, test_liste_echange);
   SUITE_ADD_TEST(suite, test_liste_tri_bulles);
+  SUITE_ADD_TEST(suite, test_liste_ajout_fin);
   return suite;
 }
 

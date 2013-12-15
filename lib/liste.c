@@ -143,8 +143,8 @@ void liste_ajout_debut(Liste **liste, int val)
   Liste *nouveau = liste_creer(val);
   if(*liste)
     {
-       Liste *tete = *liste;
-       nouveau->suiv = tete;
+      Liste *tete = *liste;
+      nouveau->suiv = tete;
     }
   *liste = nouveau;
 }
@@ -172,19 +172,27 @@ void liste_afficher(Liste *liste)
     }
 }
 
-void liste_tri_bulles(Liste **liste)
+void liste_tri_bulles(Liste *liste)
 {
-  Liste *fin;
+  // Le dernier élément à tester dans une itération
+  Liste *fin = NULL;
 
-  while(fin != *liste)
+  // Si on fait pas d'échange dans une itération la liste est trié
+  int sorted = 1;
+
+  while(fin != liste)
     {
-      Liste *courant = *liste;
-      while(courant->suiv && courant->suiv != fin )
+      Liste *courant = liste;
+      while(courant->suiv != fin)
         {
           if(courant->val > courant->suiv->val)
-            echange_valeurs(&(courant->val), &(courant->suiv->val));
+            {
+              echange_valeurs(&(courant->val), &(courant->suiv->val));
+              sorted = 0;
+            }
           courant = courant->suiv;
         }
+      if(sorted) return;
       fin = courant;
     }
 }
