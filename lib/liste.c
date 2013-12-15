@@ -4,146 +4,113 @@
 #include <assert.h>
 #include <string.h>
 
-struct Liste
+Liste* liste_creer(int val)
 {
-  int taille;
-  ElementListe *premier;
-};
-
-Liste* liste_creer()
-{
-  // Allocation de la mémoire
-  Liste *liste = malloc(sizeof(Liste));
+  Liste *liste = calloc(1, sizeof(Liste));
   if(!liste)
     {
       printf("Erreur d'allocation de mémoire\n");
       exit(1);
     }
-
-  // Initialisation
-  liste->taille = 0;
-  liste->premier = NULL;
-
+  liste->val = val;
   return liste;
 }
 
 int liste_taille(Liste *liste)
 {
-  return liste->taille;
+  Liste *courant = liste;
+  int taille = 0;
+  for(taille = 0; courant; courant = courant->suiv, ++taille);
+  return taille;
 }
 
-ElementListe* liste_premier(Liste *liste)
-{
-  return liste->premier;
-}
-
-void liste_inserer(Liste *liste, int val, int pos)
+void liste_inserer(Liste **liste, int val, int pos)
 {
   // Conditions
   assert(pos >= 0);
-  assert(pos <= liste->taille);
 
   // Nouvel élément pour la valeur
-  ElementListe *element = calloc(1, sizeof(ElementListe));
-  if(!element)
-    {
-      printf("Erreur d'allcation de mémoire\n");
-      exit(1);
-    }
-  element->val = val;
+  Liste *nouveau = liste_creer(val);
 
   // Insértion
-  if(!pos)
-    {
-      if(liste->premier)
-        {
-          ElementListe *ancienPremier = liste->premier;
-          liste->premier = element;
-          liste->premier->suivant = ancienPremier;
-        }
-      else
-        liste->premier = element;
-    }
+  if(!pos) liste_ajout_debut(liste, val);
   else
     {
-      ElementListe *courant = liste->premier;
+      Liste *courant = *liste;
       int i;
-      for(i = 0; i < pos - 1; ++i) courant = courant->suivant;
-
-      element->suivant = courant->suivant;
-      courant->suivant = element;
+      for(i = 0; i < pos - 1 && courant->suiv; ++i)
+        courant = courant->suiv;
+      if(i != pos - 1) assert(0); // pos > taille
+      nouveau->suiv = courant->suiv;
+      courant->suiv = nouveau;
     }
-
-  // Incrémentation de la taille
-  liste->taille++;
 }
 
-void liste_supprimer(Liste *liste, int pos)
+void liste_supprimer(Liste **liste, int pos)
 {
-  assert(pos < liste->taille);
+  assert(pos >= 0);
+  assert(*liste);
 
-  ElementListe *elem;
+  Liste *elem;
   if(!pos)
     {
-      elem = liste->premier;
-      liste->premier = liste->premier->suivant;
+      elem = *liste;
+      *liste = (*liste)->suiv;
     }
   else
     {
       int i;
-      ElementListe *courant = liste->premier;
-      for (i = 0; i < pos - 1; ++i) courant = courant->suivant;
-
-      elem = courant->suivant;
-      courant->suivant = courant->suivant->suivant;
+      Liste *courant = *liste;
+      for (i = 0; i < pos - 1 && courant->suiv; ++i)
+        courant = courant->suiv;
+      if(i != pos - 1) assert(0); // pos > taille - 1
+      elem = courant->suiv;
+      courant->suiv = courant->suiv->suiv;
     }
 
   // Suppression de la mémoire allouée
   free(elem);
-
-  // Décrementer la taille
-  liste->taille--;
 }
 
 void liste_detruire(Liste **liste)
 {
-  while(liste_taille(*liste)) liste_supprimer(*liste, 0);
+  while(*liste) liste_supprimer(liste, 0);
   free(*liste);
   liste = NULL;
 }
 
 int liste_recherche(int val, Liste *liste)
 {
-  ElementListe *courant = liste->premier;
+  Liste *courant = liste;
   int pos;
-  for(pos = 0; courant; ++pos, courant = courant->suivant)
+  for(pos = 0; courant; ++pos, courant = courant->suiv)
     if(courant->val == val)
       return pos;
   return -1;
 }
 
-ElementListe* liste_acceder(Liste *liste, int pos)
+Liste* liste_acceder(Liste *liste, int pos)
 {
   assert(pos >= 0);
   assert(pos < liste_taille(liste));
 
-  ElementListe *courant = liste->premier;
+  Liste *courant = liste;
   int i;
-  for(i = 0; i < pos ; ++i) courant = courant->suivant;
+  for(i = 0; i < pos ; ++i) courant = courant->suiv;
 
   return courant;
 }
 
 Liste* liste_intersection(Liste *l1, Liste *l2)
 {
-  Liste *intersect = liste_creer();
-  if(!l1 && !l2) return intersect;
+  if(!l1 && !l2) return NULL;
+  Liste *intersect = NULL;
 
-  ElementListe *courant;
-  for(courant = l1->premier; courant; courant = courant->suivant )
+  Liste *courant;
+  for(courant = l1; courant; courant = courant->suiv )
     {
       if(liste_recherche(courant->val, l2) >= 0)
-        liste_inserer(intersect, courant->val, liste_taille(intersect));
+        liste_ajout_fin(&intersect, courant->val);
     }
 
   return intersect;
@@ -156,23 +123,6 @@ void echange_valeurs(int *val1, int *val2)
   *val2 = sauvegarde;
 }
 
-void liste_tri_bulles(Liste *liste)
-{
-  ElementListe *fin;
-
-  while(fin != liste_premier(liste))
-    {
-      ElementListe *courant = liste_premier(liste);
-      while(courant->suivant && courant->suivant != fin )
-        {
-          if(courant->val> courant->suivant->val)
-            echange_valeurs(&(courant->val), &(courant->suivant->val));
-          courant = courant->suivant;
-        }
-      fin = courant;
-    }
-}
-
 void liste_echange(Liste *liste, int pos1, int pos2)
 {
   assert(pos1 >= 0);
@@ -180,98 +130,61 @@ void liste_echange(Liste *liste, int pos1, int pos2)
   assert(pos2 >= 0);
   assert(pos2 < liste_taille(liste));
 
-  ElementListe *elem1 = liste_acceder(liste, pos1);
-  ElementListe *elem2 = liste_acceder(liste, pos2);
+  Liste *elem1 = liste_acceder(liste, pos1);
+  Liste *elem2 = liste_acceder(liste, pos2);
 
   int sauvegarde = elem1->val;
   elem1->val = elem2->val;
   elem2->val = sauvegarde;
 }
 
-void liste_ajout_debut(Liste *liste, int val)
+void liste_ajout_debut(Liste **liste, int val)
 {
-  liste_inserer(liste, val, 0);
+  Liste *nouveau = liste_creer(val);
+  if(*liste)
+    {
+       Liste *tete = *liste;
+       nouveau->suiv = tete;
+    }
+  *liste = nouveau;
 }
 
-void liste_ajout_fin(Liste *liste, int val)
+void liste_ajout_fin(Liste **liste, int val)
 {
-  liste_inserer(liste, val, liste_taille(liste));
-}
-
-void liste_insertion_ordonnee(Liste *liste, int val)
-{
-  // Création d'un nouvel élément
-  ElementListe *nouveau = calloc(1, sizeof(ElementListe));
-  nouveau->val = val;
-
-  // Insertion
-  if(!liste->premier)
-    liste->premier = nouveau;
+  Liste *courant = *liste;
+  Liste *nouveau = liste_creer(val);
+  if(!(*liste)) *liste = nouveau;
   else
     {
-      ElementListe *courant = liste_premier(liste), *precedent = NULL;
-      while(courant)
-        {
-          if(val < courant->val)
-            {
-              if(precedent) precedent->suivant = nouveau;
-              else liste->premier = nouveau;
-              nouveau->suivant = courant;
-              break;
-            }
-          precedent = courant;
-          courant = courant->suivant;
-        }
-      // Ajouter à la fin
-      precedent->suivant = nouveau;
+      for(; courant->suiv; courant = courant->suiv);
+      courant->suiv = nouveau;
     }
-  liste->taille++;
 }
 
 void liste_afficher(Liste *liste)
 {
-  ElementListe *courant = liste_premier(liste);
+  Liste *courant = liste;
   int i = 0;
   while (courant)
     {
-      printf("element %d : %d \n", i++, courant->val);
-      courant = courant->suivant;
+      printf("%d : %d \n", i++, courant->val);
+      courant = courant->suiv;
     }
 }
 
-ElementListe* insert_sort(ElementListe *liste) {
-  // Liste vide
-  if(liste == NULL || liste->suivant == NULL)
-    return liste;
-  // head is the first element ofrted list
-  ElementListe * tete = NULL;
-  while(liste != NULL) {
-      ElementListe * courant = liste;
-      liste = liste->suivant;
-      if(tete == NULL || courant->val < tete->val) {
-          // Insertion en tete
-          courant->suivant = tete;
-          tete = courant;
-        } else {
-          // Insertion au milieu
-          ElementListe * p = tete;
-          while(p != NULL) {
-              if(p->suivant == NULL || // dernier element de la liste triee
-                 courant->val < p->suivant->val) // milieu de la liste
-                {
-                  courant->suivant = p->suivant;
-                  p->suivant = courant;
-                  break; // done
-                }
-              p = p->suivant;
-            }
-        }
-    }
-  return tete;
-}
-
-void liste_tri_insertion(Liste *liste)
+void liste_tri_bulles(Liste **liste)
 {
-  liste->premier = insert_sort(liste->premier);
-}
+  Liste *fin;
 
+  while(fin != *liste)
+    {
+      Liste *courant = *liste;
+      while(courant->suiv && courant->suiv != fin )
+        {
+          if(courant->val > courant->suiv->val)
+            echange_valeurs(&(courant->val), &(courant->suiv->val));
+          courant = courant->suiv;
+        }
+      fin = courant;
+    }
+}

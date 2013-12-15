@@ -4,25 +4,20 @@
 #include <stdlib.h>
 
 /*
- * La liste chainéé
- */
-typedef struct Liste Liste;
-
-/*
  * Un élément de la liste
  */
-typedef struct ElementListe
+typedef struct Liste
 {
   int val;
-  struct ElementListe *suivant;
-} ElementListe;
+  struct Liste *suiv;
+} Liste;
 
 /* Sorties :
  *    Liste *liste : Une liste chainée
  * Description:
  *    Création et initialisation d'une liste chainée
  */
-Liste* liste_creer();
+Liste* liste_creer(int val);
 
 /* Entrées :
  *    Liste *liste : Une liste chainée
@@ -42,22 +37,12 @@ int liste_taille(Liste *liste);
 
 /* Entrées :
  *    Liste *liste : Une liste chainée
- * Sorties :
- *    ElementListe *element : Le premier element de la liste
- * Description:
- *    Retourne le premier élément de la liste
- */
-ElementListe* liste_premier(Liste *liste);
-
-
-/* Entrées :
- *    Liste *liste : Une liste chainée
  *    int val : La valeur à inserer
  *    int pos : La position de l'insertion
  * Description:
  *    Inserer l'élément val à la position pos
  */
-void liste_inserer(Liste *liste, int val, int pos);
+void liste_inserer(Liste **liste, int val, int pos);
 
 /* Entrées :
  *    Liste *liste : Une liste chainée
@@ -65,7 +50,7 @@ void liste_inserer(Liste *liste, int val, int pos);
  * Description:
  *    Supprime l'élément à la position indiquée
  */
-void liste_supprimer(Liste *liste, int pos);
+void liste_supprimer(Liste **liste, int pos);
 
 /* Entrées :
  *    void *val : Valeur recherché
@@ -90,7 +75,7 @@ int liste_recherche(int val, Liste *liste);
  * Description:
  *    Retourne l'élément à la postion pos dans la liste
  */
-ElementListe* liste_acceder(Liste *liste, int pos);
+Liste *liste_acceder(Liste *liste, int pos);
 
 /* Entrées :
  *  Liste *l1 : première liste
@@ -109,7 +94,7 @@ Liste *liste_intersection(Liste *l1, Liste *l2);
  * Description:
  *    Fait le tri à bulle de la liste
  */
-void liste_tri_bulles(Liste *liste);
+void liste_tri_bulles(Liste **liste);
 
 
 /* Entrées :
@@ -121,13 +106,11 @@ void liste_tri_bulles(Liste *liste);
  */
 void liste_echange(Liste *liste, int pos1, int pos2);
 
-void liste_ajout_fin(Liste *liste, int val);
+void liste_ajout_fin(Liste **liste, int val);
 
-void liste_ajout_debut(Liste *liste, int val);
+void liste_ajout_debut(Liste **liste, int val);
 
 void liste_insertion_ordonnee(Liste *liste, int val);
-
-void liste_tri_insertion(Liste *liste);
 
 void liste_afficher(Liste *liste);
 #endif // LISTE_H

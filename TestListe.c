@@ -9,51 +9,51 @@
 // Tests
 void test_inserer_liste(CuTest *tc)
 {
-  Liste *liste = liste_creer();
+  Liste *liste = NULL;
   // Test 1:
-  liste_inserer(liste, 5, 0);
+  liste_ajout_debut(&liste, 5);
 
   CuAssertIntEquals(tc, 1, liste_taille(liste));
-  CuAssertTrue(tc, 5 ==  liste_premier(liste)->val);
-  CuAssertTrue(tc, NULL == liste_premier(liste)->suivant);
+  CuAssertTrue(tc, 5 ==  liste->val);
+  CuAssertTrue(tc, NULL == liste->suiv);
 
   // Test 2:
   // insértion de plusieurs valeurs
   int nbr = 10;
-  Liste *liste2 = liste_creer();
+  Liste *liste2 = NULL;
   int i;
   for (i = 0; i < nbr; ++i)
-    liste_inserer(liste2, i * 2, 0);
+    liste_inserer(&liste2, i * 2, 0);
   // test des valeurs
-  ElementListe *courant = liste_premier(liste2);
-  for (i = 0; i < nbr; ++i, courant = courant->suivant)
+  Liste *courant = liste2;
+  for (i = 0; i < nbr; ++i, courant = courant->suiv)
     CuAssertIntEquals(tc, 2 * (nbr - i - 1), courant->val);
   CuAssertTrue(tc, NULL == courant);
 
   // Test 3:
-  Liste *liste3 = liste_creer();
+  Liste *liste3 = NULL;
   for(i = 0; i < 10; ++i)
-    liste_inserer(liste3, i, liste_taille(liste3));
+    liste_inserer(&liste3, i, liste_taille(liste3));
   CuAssertIntEquals(tc, 10, liste_taille(liste3));
 }
 
 void test_supprimer_liste(CuTest *tc)
 {
-  Liste *liste = liste_creer();
+  Liste *liste = NULL;
   int i;
-  for(i = 0; i < 4; ++i) liste_inserer(liste, i, liste_taille(liste));
+  for(i = 0; i < 4; ++i) liste_inserer(&liste, i, liste_taille(liste));
 
-  liste_supprimer(liste, 0);
+  liste_supprimer(&liste, 0);
   CuAssertIntEquals(tc, 3, liste_taille(liste));
 
-  liste_supprimer(liste, liste_taille(liste) - 1);
-  CuAssertIntEquals(tc, 1, liste_premier(liste)->val);
-  CuAssertIntEquals(tc, 2, liste_premier(liste)->suivant->val);
+  liste_supprimer(&liste, liste_taille(liste) - 1);
+  CuAssertIntEquals(tc, 1, liste->val);
+  CuAssertIntEquals(tc, 2, liste->suiv->val);
 
   CuAssertIntEquals(tc, 2, liste_taille(liste));
 
   // Vider la liste
-  while(liste_taille(liste)) liste_supprimer(liste, 0);
+  while(liste_taille(liste)) liste_supprimer(&liste, 0);
 
 
   CuAssertIntEquals(tc, 0, liste_taille(liste));
@@ -61,26 +61,26 @@ void test_supprimer_liste(CuTest *tc)
 
 void Test_liste_taille(CuTest *tc)
 {
-  Liste *liste = liste_creer();
+  Liste *liste = NULL;
   CuAssertIntEquals(tc, liste_taille(liste), 0);
 }
 
 void test_premier_liste(CuTest *tc)
 {
-  Liste *liste = liste_creer();
+  Liste *liste = NULL;
   int i;
-  for (i = 0; i < 10; ++i) liste_inserer(liste, i, liste_taille(liste));
+  for (i = 0; i < 10; ++i) liste_inserer(&liste, i, liste_taille(liste));
 
-  CuAssertIntEquals(tc, 0, liste_premier(liste)->val);
-  CuAssertIntEquals(tc, 1, liste_premier(liste)->suivant->val);
+  CuAssertIntEquals(tc, 0, liste->val);
+  CuAssertIntEquals(tc, 1, liste->suiv->val);
 }
 
 void test_liste_pos(CuTest *tc)
 {
-  Liste *liste = liste_creer();
+  Liste *liste = NULL;
   int i;
   for(i = 0; i < 19; ++i)
-    liste_inserer(liste, i, liste_taille(liste));
+    liste_inserer(&liste, i, liste_taille(liste));
 
   CuAssertIntEquals(tc, 3, liste_recherche(3, liste));
   CuAssertIntEquals(tc, -1, liste_recherche(44, liste));
@@ -89,10 +89,10 @@ void test_liste_pos(CuTest *tc)
 
 void test_liste_acceder(CuTest *tc)
 {
-  Liste *liste = liste_creer();
+  Liste *liste = NULL;
   int i;
   for(i = 0; i < 10; ++i)
-    liste_inserer(liste, i, liste_taille(liste));
+    liste_inserer(&liste, i, liste_taille(liste));
 
   CuAssertIntEquals(tc, 0, liste_acceder(liste, 0)->val);
 
@@ -101,17 +101,17 @@ void test_liste_acceder(CuTest *tc)
 
 void test_liste_intersection(CuTest *tc)
 {
-  Liste *liste1 = liste_creer(), *liste2 = liste_creer();
+  Liste *liste1 = NULL, *liste2 = NULL;
 
-  liste_inserer(liste1, 1, 0);
-  liste_inserer(liste1, 2, 0);
-  liste_inserer(liste1, 3, 0);
-  liste_inserer(liste1, 4, 0);
+  liste_inserer(&liste1, 1, 0);
+  liste_inserer(&liste1, 2, 0);
+  liste_inserer(&liste1, 3, 0);
+  liste_inserer(&liste1, 4, 0);
 
-  liste_inserer(liste2, 3, 0);
-  liste_inserer(liste2, 4, 0);
-  liste_inserer(liste2, 5, 0);
-  liste_inserer(liste2, 6, 0);
+  liste_inserer(&liste2, 3, 0);
+  liste_inserer(&liste2, 4, 0);
+  liste_inserer(&liste2, 5, 0);
+  liste_inserer(&liste2, 6, 0);
 
 
   Liste *intersect = liste_intersection(liste1, liste2);
@@ -125,9 +125,9 @@ void test_liste_intersection(CuTest *tc)
 
 void test_liste_echange(CuTest *tc)
 {
-  Liste *liste = liste_creer();
+  Liste *liste = NULL;
   int i;
-  for(i = 0; i < 10; ++i) liste_ajout_fin(liste, i);
+  for(i = 0; i < 10; ++i) liste_ajout_fin(&liste, i);
   liste_echange(liste, 4, 6);
 
   CuAssertIntEquals(tc, 6, liste_acceder(liste, 4)->val);
@@ -145,59 +145,19 @@ void test_liste_tri_bulles(CuTest *tc)
 {
   // Remplissage de liste avec des nombres aléatoires
   srand(time(NULL));
-  Liste *liste = liste_creer();
+  Liste *liste = NULL;
 
   int i;
-  for(i = 0; i < 10; ++i) liste_ajout_fin(liste, rand() % 100);
+  for(i = 0; i < 10; ++i) liste_ajout_fin(&liste, rand() % 100);
 
-  liste_tri_bulles(liste);
+  liste_tri_bulles(&liste);
   CuAssertIntEquals(tc, 10, liste_taille(liste));
 
   // Test
-  ElementListe *courant;
-  for(courant = liste_premier(liste); courant->suivant;
-      courant = courant->suivant)
-    CuAssertTrue(tc, courant->val <= courant->suivant->val);
-
-  liste_detruire(&liste);
-}
-
-void test_liste_insertion_ordonnee(CuTest *tc)
-{
-  Liste *liste = liste_creer();
-
-  // Remplissage
-  int i;
-  for (i = 0; i < 10; ++i) if(i != 3) liste_insertion_ordonnee(liste, i);
-
-  liste_insertion_ordonnee(liste, 3);
-
-  // Test
-  ElementListe *courant = liste_premier(liste);
-  for(i = 0; courant ; courant = courant->suivant, ++i)
-   CuAssertIntEquals(tc, i, courant->val);
-
-  liste_detruire(&liste);
-}
-
-void test_liste_tri_insertion(CuTest *tc)
-{
-  // Remplissage de liste avec des nombres aléatoires
-  srand(time(NULL));
-  Liste *liste = liste_creer();
-
-  int i;
-  for(i = 0; i < 10; ++i) liste_ajout_fin(liste, rand() % 100);
-
-  liste_tri_insertion(liste);
-
-  CuAssertIntEquals(tc, 10, liste_taille(liste));
-
-  // Test
-  ElementListe *courant;
-  for(courant = liste_premier(liste); courant->suivant;
-      courant = courant->suivant)
-    CuAssertTrue(tc, courant->val <= courant->suivant->val);
+  Liste *courant;
+  for(courant = liste; courant->suiv;
+      courant = courant->suiv)
+    CuAssertTrue(tc, courant->val <= courant->suiv->val);
 
   liste_detruire(&liste);
 }
@@ -214,8 +174,6 @@ CuSuite* Liste_get_suite()
   SUITE_ADD_TEST(suite, test_liste_intersection);
   SUITE_ADD_TEST(suite, test_liste_echange);
   SUITE_ADD_TEST(suite, test_liste_tri_bulles);
-  SUITE_ADD_TEST(suite, test_liste_insertion_ordonnee);
-  SUITE_ADD_TEST(suite, test_liste_tri_insertion);
   return suite;
 }
 
