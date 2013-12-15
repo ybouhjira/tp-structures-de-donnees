@@ -246,3 +246,14 @@ void liste_tri_insertion(Liste **liste)
       courant = courant->suiv;
     }
 }
+
+Liste* liste_min(Liste* liste)
+{
+  if(!liste) return NULL;
+  if(!liste->suiv) return liste;
+
+  Liste *min = liste, *courant;
+  for(courant = liste->suiv; courant; courant = courant->suiv)
+      if(min->val > courant->val) min = courant;
+  return min;
+}

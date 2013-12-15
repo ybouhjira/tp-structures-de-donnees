@@ -220,6 +220,23 @@ void test_liste_tri_insertion(CuTest *tc)
   liste_detruire(&liste);
 }
 
+void test_liste_min(CuTest *tc)
+{
+  Liste *liste = NULL;
+  liste_ajout_debut(&liste, 12);
+  liste_ajout_debut(&liste, 14);
+  liste_ajout_debut(&liste, 1);
+  liste_ajout_debut(&liste, -1);
+  liste_ajout_debut(&liste, 4);
+  liste_ajout_debut(&liste, 3);
+  liste_ajout_debut(&liste, 0);
+
+  Liste *min = liste_min(liste);
+  CuAssertIntEquals(tc, 7, liste_taille(liste));
+  CuAssertIntEquals(tc, -1, min->val);
+  liste_detruire(&liste);
+}
+
 CuSuite* Liste_get_suite()
 {
   CuSuite *suite = CuSuiteNew();
@@ -235,6 +252,7 @@ CuSuite* Liste_get_suite()
   SUITE_ADD_TEST(suite, test_liste_ajout_fin);
   SUITE_ADD_TEST(suite, test_liste_insertion_ordonee);
   SUITE_ADD_TEST(suite, test_liste_tri_insertion);
+  SUITE_ADD_TEST(suite, test_liste_min);
   return suite;
 }
 

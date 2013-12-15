@@ -115,4 +115,6 @@ void liste_insertion_ordonnee(Liste **liste, int val);
 void liste_afficher(Liste *liste);
 
 void liste_tri_insertion(Liste **liste);
+
+Liste* liste_min(Liste* liste);
 #endif // LISTE_H
