@@ -181,7 +181,7 @@ void liste_tri_bulles(Liste *liste)
   Liste *fin = NULL;
 
   // Si on fait pas d'échange dans une itération la liste est trié
-  int sorted = 1;
+  int echange = 0;
 
   while(fin != liste)
     {
@@ -191,38 +191,15 @@ void liste_tri_bulles(Liste *liste)
           if(courant->val > courant->suiv->val)
             {
               echange_valeurs(&(courant->val), &(courant->suiv->val));
-              sorted = 0;
+              echange = 1;
             }
           courant = courant->suiv;
         }
-      if(sorted) return;
+      liste_afficher(liste);
+      if(!echange) return;
       fin = courant;
     }
 }
-
-//void liste_insertion_ordonnee(Liste **liste, int val)
-//{
-//  Liste *courant = *liste, *precedent = NULL;
-//  Liste *nouveau = liste_creer(val);
-
-//  if(!(*liste)) *liste = nouveau;
-//  else
-//    {
-//      while(courant->suiv)
-//        {
-//          if(courant->val >= courant->suiv->val)
-//            {
-//              if(precedent) precedent->suiv = nouveau;
-//              else *liste = nouveau;
-//              nouveau->suiv = courant;
-//              return;
-//            }
-//          precedent = courant;
-//          courant = courant->suiv;
-//        }
-//        courant->suiv = nouveau;
-//    }
-//}
 
 void liste_insertion_ordonnee(Liste** liste,  int val)
 {
