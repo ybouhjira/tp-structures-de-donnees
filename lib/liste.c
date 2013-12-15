@@ -164,12 +164,15 @@ void liste_ajout_fin(Liste **liste, int val)
 void liste_afficher(Liste *liste)
 {
   Liste *courant = liste;
-  int i = 0;
+  printf("[");
   while (courant)
     {
-      printf("%d : %d \n", i++, courant->val);
+      printf("%d",courant->val);
       courant = courant->suiv;
+      if(courant) printf(", ");
+      else printf("]");
     }
+  printf("\n");
 }
 
 void liste_tri_bulles(Liste *liste)
@@ -194,5 +197,75 @@ void liste_tri_bulles(Liste *liste)
         }
       if(sorted) return;
       fin = courant;
+    }
+}
+
+//void liste_insertion_ordonnee(Liste **liste, int val)
+//{
+//  Liste *courant = *liste, *precedent = NULL;
+//  Liste *nouveau = liste_creer(val);
+
+//  if(!(*liste)) *liste = nouveau;
+//  else
+//    {
+//      while(courant->suiv)
+//        {
+//          if(courant->val >= courant->suiv->val)
+//            {
+//              if(precedent) precedent->suiv = nouveau;
+//              else *liste = nouveau;
+//              nouveau->suiv = courant;
+//              return;
+//            }
+//          precedent = courant;
+//          courant = courant->suiv;
+//        }
+//        courant->suiv = nouveau;
+//    }
+//}
+
+void liste_insertion_ordonnee(Liste** liste,  int val)
+{
+  Liste *courant = *liste, *nouveau = liste_creer(val);
+
+  // Tete de liste vide ou supérieur à val
+  if (!(*liste) || ((*liste)->val >= val))
+    {
+      nouveau->suiv = *liste;
+      *liste = nouveau;
+    }
+  else
+    {
+      // Chercher l'élement avant la pos d'insertion
+      while (courant->suiv && (courant->suiv->val < nouveau->val))
+        courant = courant->suiv;
+
+      nouveau->suiv = courant->suiv;
+      courant->suiv = nouveau;
+    }
+}
+
+void liste_tri_insertion(Liste **liste)
+{
+  // Vide ou contient 1 élément
+  if(!(*liste) || !(*liste)->suiv) return;
+
+  // Tete
+
+  // Reste de la liste
+  Liste *courant = *liste;
+  while(courant->suiv)
+    {
+      if(courant->val > courant->suiv->val)
+        {
+          Liste *supprimer = courant->suiv;
+          courant->suiv = courant->suiv->suiv;
+          liste_insertion_ordonnee(liste, supprimer->val);
+          liste_afficher(*liste);
+          free(supprimer);
+          continue;
+        }
+      liste_afficher(*liste);
+      courant = courant->suiv;
     }
 }

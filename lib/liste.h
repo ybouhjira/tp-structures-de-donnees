@@ -110,7 +110,9 @@ void liste_ajout_fin(Liste **liste, int val);
 
 void liste_ajout_debut(Liste **liste, int val);
 
-void liste_insertion_ordonnee(Liste *liste, int val);
+void liste_insertion_ordonnee(Liste **liste, int val);
 
 void liste_afficher(Liste *liste);
+
+void liste_tri_insertion(Liste **liste);
 #endif // LISTE_H
