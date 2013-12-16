@@ -238,12 +238,10 @@ void liste_tri_insertion(Liste **liste)
           Liste *supprimer = courant->suiv;
           courant->suiv = courant->suiv->suiv;
           liste_insertion_ordonnee(liste, supprimer->val);
-          liste_afficher(*liste);
           free(supprimer);
-          continue;
         }
+      else  courant = courant->suiv;
       liste_afficher(*liste);
-      courant = courant->suiv;
     }
 }
 
@@ -254,6 +252,18 @@ Liste* liste_min(Liste* liste)
 
   Liste *min = liste, *courant;
   for(courant = liste->suiv; courant; courant = courant->suiv)
-      if(min->val > courant->val) min = courant;
+    if(min->val > courant->val) min = courant;
   return min;
+}
+
+void liste_tri_selection(Liste **liste)
+{
+  Liste *courant = *liste, *min;
+  for(courant = *liste; courant && courant->suiv; courant = courant->suiv)
+    {
+      min = liste_min(courant);
+      if(courant->val > min->val)
+        echange_valeurs(&courant->val, &min->val);
+      liste_afficher(*liste);
+    }
 }
