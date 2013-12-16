@@ -269,18 +269,14 @@ void liste_tri_selection(Liste **liste)
 
 void liste_tri_rapide(Liste **liste, Liste *fin)
 {
-  printf("\n\n-------------\n");
-  liste_afficher(*liste, fin);
+  // Liste vide ou contient 1 élément
   if(!(*liste) || !(*liste)->suiv) return;
 
-  Liste *pivot = *liste, *courant = pivot, *inf = NULL;
+  Liste *pivot = *liste, *courant = pivot,
+      *inf = NULL; // liste des éléments inférieur
 
-  printf("pivot = %d\n", pivot->val);
   while(courant->suiv != fin)
     {
-      printf("  courant->suiv = %d\n", courant->suiv->val);
-      printf("  inf : ");
-      liste_afficher(inf, *liste);
       if(courant->suiv->val <= pivot->val)
         {
           Liste *suppr = courant->suiv;
@@ -299,7 +295,11 @@ void liste_tri_rapide(Liste **liste, Liste *fin)
         }
       else courant = courant->suiv;
     }
+
+  // Faire la meme chose pour la liste des éléments inf et supérieur
   if(inf) liste_tri_rapide(&inf, *liste);
   if((*liste)->suiv) liste_tri_rapide(&(*liste)->suiv, NULL);
+
+  // changement de la tete de la liste
   if(inf) *liste = inf;
 }
