@@ -257,6 +257,26 @@ void test_liste_tri_selection(CuTest *tc)
   liste_detruire(&liste);
 }
 
+void test_liste_tri_rapide(CuTest *tc)
+{
+  // Remplissage de liste avec des nombres aléatoires
+  srand(time(NULL));
+  Liste *liste = NULL;
+
+  int i;
+  for(i = 0; i < 10; ++i) liste_ajout_fin(&liste, rand() % 1000);
+
+  liste_tri_rapide(&liste, NULL);
+  CuAssertIntEquals(tc, 10, liste_taille(liste));
+
+  // Test
+  Liste *courant;
+  for(courant = liste; courant->suiv; courant = courant->suiv)
+      CuAssertTrue(tc, courant->val <= courant->suiv->val);
+
+  liste_detruire(&liste);
+}
+
 CuSuite* Liste_get_suite()
 {
   CuSuite *suite = CuSuiteNew();
@@ -274,6 +294,7 @@ CuSuite* Liste_get_suite()
   SUITE_ADD_TEST(suite, test_liste_tri_insertion);
   SUITE_ADD_TEST(suite, test_liste_min);
   SUITE_ADD_TEST(suite, test_liste_tri_selection);
+  SUITE_ADD_TEST(suite, test_liste_tri_rapide);
   return suite;
 }
 

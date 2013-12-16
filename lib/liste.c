@@ -161,18 +161,17 @@ void liste_ajout_fin(Liste **liste, int val)
     }
 }
 
-void liste_afficher(Liste *liste)
+void liste_afficher(Liste *liste, Liste *fin)
 {
   Liste *courant = liste;
   printf("[");
-  while (courant)
+  while (courant && courant != fin)
     {
       printf("%d",courant->val);
       courant = courant->suiv;
-      if(courant) printf(", ");
-      else printf("]");
+      if(courant && courant != fin) printf(", ");
     }
-  printf("\n");
+  printf("]\n");
 }
 
 void liste_tri_bulles(Liste *liste)
@@ -195,7 +194,7 @@ void liste_tri_bulles(Liste *liste)
             }
           courant = courant->suiv;
         }
-      liste_afficher(liste);
+      liste_afficher(liste, NULL);
       if(!echange) return;
       fin = courant;
     }
@@ -241,7 +240,7 @@ void liste_tri_insertion(Liste **liste)
           free(supprimer);
         }
       else  courant = courant->suiv;
-      liste_afficher(*liste);
+      liste_afficher(*liste, NULL);
     }
 }
 
@@ -264,6 +263,43 @@ void liste_tri_selection(Liste **liste)
       min = liste_min(courant);
       if(courant->val > min->val)
         echange_valeurs(&courant->val, &min->val);
-      liste_afficher(*liste);
+      liste_afficher(*liste, NULL);
     }
+}
+
+void liste_tri_rapide(Liste **liste, Liste *fin)
+{
+  printf("\n\n-------------\n");
+  liste_afficher(*liste, fin);
+  if(!(*liste) || !(*liste)->suiv) return;
+
+  Liste *pivot = *liste, *courant = pivot, *inf = NULL;
+
+  printf("pivot = %d\n", pivot->val);
+  while(courant->suiv != fin)
+    {
+      printf("  courant->suiv = %d\n", courant->suiv->val);
+      printf("  inf : ");
+      liste_afficher(inf, *liste);
+      if(courant->suiv->val <= pivot->val)
+        {
+          Liste *suppr = courant->suiv;
+          courant->suiv = courant->suiv->suiv;
+
+          //Insértion avant tete
+          if(!inf) inf = suppr;
+          else
+            {
+              Liste *courantInf = inf;
+              while(courantInf->suiv != *liste)
+                courantInf = courantInf->suiv;
+              courantInf->suiv = suppr;
+            }
+          suppr->suiv = *liste;
+        }
+      else courant = courant->suiv;
+    }
+  if(inf) liste_tri_rapide(&inf, *liste);
+  if((*liste)->suiv) liste_tri_rapide(&(*liste)->suiv, NULL);
+  if(inf) *liste = inf;
 }
