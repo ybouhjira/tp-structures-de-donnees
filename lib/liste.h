@@ -2,6 +2,7 @@
 #define LISTE_H
 
 #include <stdlib.h>
+#include "arbre.h"
 
 /*
  * Un élément de la liste
@@ -121,4 +122,13 @@ Liste* liste_min(Liste* liste);
 void liste_tri_selection(Liste **liste);
 
 void liste_tri_rapide(Liste **liste, Liste *fin);
+
+Arbre *liste_arbre_tournoi(Liste *liste);
+
+/*  7 6   5  2   3
+ *  \/    \ /   /
+ *   6     2   3
+ *
+ *
+ */
 #endif // LISTE_H

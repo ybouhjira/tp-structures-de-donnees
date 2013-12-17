@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "arbre.h"
 
-Arbre* Creer_Arbre(int val)
+Arbre* arbre_creer(int val)
 {
   Arbre *arbre = calloc(1, sizeof(Arbre));
   if(!arbre)
@@ -15,14 +15,15 @@ Arbre* Creer_Arbre(int val)
   return arbre;
 }
 
-void Detruire_arbre(Arbre *arbre)
+void arbre_detruire(Arbre **arbre)
 {
-  if(arbre->gauche) Detruire_arbre(arbre->gauche);
-  if(arbre->droit) Detruire_arbre(arbre->droit);
-  free(arbre);
+  if((*arbre)->gauche) arbre_detruire(&(*arbre)->gauche);
+  if((*arbre)->droit) arbre_detruire(&(*arbre)->droit);
+  free(*arbre);
+  *arbre = NULL;
 }
 
-void Afficher_arbre(Arbre *arbre, int indent)
+void arbre_afficher(Arbre *arbre, int indent)
 {
   assert(arbre);
   int i;
@@ -31,13 +32,13 @@ void Afficher_arbre(Arbre *arbre, int indent)
   printf(" --> %d\n", arbre->val);
 
   int ajout = 4;
-  if(arbre->gauche) Afficher_arbre(arbre->gauche, indent + ajout);
+  if(arbre->gauche) arbre_afficher(arbre->gauche, indent + ajout);
   else if(arbre->droit)
     {
       for(i = 0; i < indent + ajout; ++i) printf(" ");
       printf(" --> NULL\n");
     }
-  if(arbre->droit) Afficher_arbre(arbre->droit, indent + ajout);
+  if(arbre->droit) arbre_afficher(arbre->droit, indent + ajout);
   else if(arbre->gauche)
     {
       for(i = 0; i < indent + ajout; ++i) printf(" ");
@@ -91,7 +92,7 @@ void Postfixe_arbre(Arbre *arbre)
 void Inserer_arbre_ordnnee(Arbre **arbre, int val)
 {
   if(!(*arbre))
-    *arbre = Creer_Arbre(val);
+    *arbre = arbre_creer(val);
   else
     {
       if(val >= (*arbre)->val)  Inserer_arbre_ordnnee(&(*arbre)->droit, val);
@@ -140,4 +141,12 @@ void Supprimer_arbre_ordonnee(Arbre **arbre, int val)
       if(val < (*arbre)->val)
         Supprimer_arbre_ordonnee(&(*arbre)->gauche, val);
     }
+}
+
+int arbre_egaux(Arbre *arbre1, Arbre *arbre2)
+{
+  if(!arbre1 || !arbre2) return arbre1 == arbre2;
+  return arbre1->val == arbre2->val
+      && arbre_egaux(arbre1->droit, arbre2->droit)
+      && arbre_egaux(arbre1->gauche, arbre2->gauche);
 }
