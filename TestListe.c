@@ -277,21 +277,6 @@ void test_liste_tri_rapide(CuTest *tc)
   liste_detruire(&liste);
 }
 
-void test_liste_arbre_tournoi(CuTest *tc)
-{
-  Liste *liste = NULL;
-  int val[10] = {79, 58, 59, 38, 64, 74, 62, 50, 10, 3}, i;
-  for(i = 0; i < 10; ++i) liste_ajout_fin(&liste, val[i]);
-
-  Arbre *arbre = liste_arbre_tournoi(liste);
-
-  liste_afficher(liste, NULL);
-  arbre_afficher(arbre, 0);
-
- arbre_detruire(&arbre);
- liste_detruire(&liste);
-}
-
 CuSuite* Liste_get_suite()
 {
   CuSuite *suite = CuSuiteNew();
@@ -310,7 +295,6 @@ CuSuite* Liste_get_suite()
   SUITE_ADD_TEST(suite, test_liste_min);
   SUITE_ADD_TEST(suite, test_liste_tri_selection);
   SUITE_ADD_TEST(suite, test_liste_tri_rapide);
-  SUITE_ADD_TEST(suite, test_liste_arbre_tournoi);
   return suite;
 }
 
