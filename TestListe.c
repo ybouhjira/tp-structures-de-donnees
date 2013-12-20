@@ -266,7 +266,14 @@ void test_liste_tri_rapide(CuTest *tc)
   int i;
   for(i = 0; i < 10; ++i) liste_ajout_fin(&liste, rand() % 1000);
 
+
+  printf("\n\n");
+
+  liste_afficher(liste, NULL);
+  printf("\n");
   liste_tri_rapide(&liste, NULL);
+  printf("\n\n");
+  liste_afficher(liste, NULL);
   CuAssertIntEquals(tc, 10, liste_taille(liste));
 
   // Test

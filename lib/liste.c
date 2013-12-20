@@ -171,7 +171,7 @@ void liste_afficher(Liste *liste, Liste *fin)
       courant = courant->suiv;
       if(courant && courant != fin) printf(", ");
     }
-  printf("]\n");
+  printf("]");
 }
 
 void liste_tri_bulles(Liste *liste)
@@ -296,9 +296,16 @@ void liste_tri_rapide(Liste **liste, Liste *fin)
       else courant = courant->suiv;
     }
 
+  // affichage de la trace de l'algorithme
+  liste_afficher(inf, *liste);
+  printf(" %d ", (*liste)->val);
+  liste_afficher((*liste)->suiv, fin);
+  printf("\n");
+
   // Faire la meme chose pour la liste des éléments inf et supérieur
-  if(inf) liste_tri_rapide(&inf, *liste);
-  if((*liste)->suiv) liste_tri_rapide(&(*liste)->suiv, NULL);
+  if(inf && inf->suiv != *liste) liste_tri_rapide(&inf, *liste);
+  if((*liste)->suiv && (*liste)->suiv->suiv != NULL)
+    liste_tri_rapide(&(*liste)->suiv, NULL);
 
   // changement de la tete de la liste
   if(inf) *liste = inf;
