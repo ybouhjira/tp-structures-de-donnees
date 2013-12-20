@@ -195,6 +195,7 @@ void liste_tri_bulles(Liste *liste)
           courant = courant->suiv;
         }
       liste_afficher(liste, NULL);
+      printf("\n");
       if(!echange) return;
       fin = courant;
     }
@@ -241,6 +242,7 @@ void liste_tri_insertion(Liste **liste)
         }
       else  courant = courant->suiv;
       liste_afficher(*liste, NULL);
+      printf("\n");
     }
 }
 
@@ -264,6 +266,7 @@ void liste_tri_selection(Liste **liste)
       if(courant->val > min->val)
         echange_valeurs(&courant->val, &min->val);
       liste_afficher(*liste, NULL);
+      printf("\n");
     }
 }
 
