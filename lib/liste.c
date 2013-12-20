@@ -316,42 +316,42 @@ int min(int a, int b)
   return a < b ? a : b;
 }
 
-Arbre *liste_arbre_tournoi(Liste *liste)
-{
-  Arbre *tete = NULL; // Tete de l'arbre
-  Liste *itr = liste; // élement courant
+//Arbre *liste_arbre_tournoi(Liste *liste)
+//{
+//  Arbre *tete = NULL; // Tete de l'arbre
+//  Liste *itr = liste; // élement courant
 
-  // Parcourir la liste
-  while(itr)
-    {
-      // Construire un arbre contenant le minimum de itr
-      // et itr->suiv
-      int minVal = itr->suiv? min(itr->val, itr->suiv->val) : itr->val;
-      Arbre *arbMin = arbre_creer(minVal);
+//  // Parcourir la liste
+//  while(itr)
+//    {
+//      // Construire un arbre contenant le minimum de itr
+//      // et itr->suiv
+//      int minVal = itr->suiv? min(itr->val, itr->suiv->val) : itr->val;
+//      Arbre *arbMin = arbre_creer(minVal);
 
-      if(itr->suiv)
-        {
-          arbMin->gauche = arbre_creer(itr->val);
-          arbMin->droit = arbre_creer(itr->suiv->val);
-        }
+//      if(itr->suiv)
+//        {
+//          arbMin->gauche = arbre_creer(itr->val);
+//          arbMin->droit = arbre_creer(itr->suiv->val);
+//        }
 
-      // Lier avec arbMin precedent
-      if(!tete) tete = arbMin;
-      else
-        {
-          Arbre *parent = arbre_creer(min(arbMin->val, tete->val));
-          parent->gauche = tete;
-          tete = parent;
-          tete->droit = arbMin;
-        }
+//      // Lier avec arbMin precedent
+//      if(!tete) tete = arbMin;
+//      else
+//        {
+//          Arbre *parent = arbre_creer(min(arbMin->val, tete->val));
+//          parent->gauche = tete;
+//          tete = parent;
+//          tete->droit = arbMin;
+//        }
 
-      // avancer
-      if(itr->suiv) itr = itr->suiv->suiv;
-      else break;
-    }
+//      // avancer
+//      if(itr->suiv) itr = itr->suiv->suiv;
+//      else break;
+//    }
 
-  return tete;
-}
+//  return tete;
+//}
 
 /* Nom de la fonction: plasser
  * Entrees: Tableau d'entiers
