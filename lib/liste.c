@@ -352,3 +352,47 @@ Arbre *liste_arbre_tournoi(Liste *liste)
 
   return tete;
 }
+
+/* Nom de la fonction: plasser
+ * Entrees: Tableau d'entiers
+ *          Deux entiers
+ * Sorties: Null
+ * Description:
+ *
+ *    Cette fonction accepte comme argument un tableau d'entiers et
+ *  remplace les valeurs des cases tableau de rang n par le sup des
+ *  valeurs des cases 2n et 2n+1 (si elles sont superieurs), tant que
+ *  2n+1 ne dépasse pas la taille du tableau
+ */
+void plasser(Liste *liste, int indice, int taille)
+{
+    int k, j;
+    k = indice;
+    j = 2 * k;
+    while(j <= taille)
+    {
+        Liste *jElem = liste_acceder(liste, j);
+        if((j < taille) && (jElem->val < jElem->suiv->val)) ++j;
+
+        Liste *kElem = liste_acceder(liste, k);
+        jElem = liste_acceder(liste, j);
+        if(kElem->val < jElem->val)
+        {
+            echange_valeurs(&kElem->val, &jElem->val);
+            k = j;
+            j = 2 * k;
+        }
+        else break;
+    }
+}
+
+void liste_tri_tas(Liste *liste)
+{
+    int i, taille = liste_taille(liste) - 1;
+    for(i = taille / 2; i >= 0; --i) plasser(liste, i, taille);
+    for(i = taille; i >= 1; --i)
+    {
+        echange_valeurs(&liste_acceder(liste, i)->val, &liste->val);
+        plasser(liste, 0, i - 1);
+    }
+}

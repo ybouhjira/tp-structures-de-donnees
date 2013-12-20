@@ -125,10 +125,13 @@ void liste_tri_rapide(Liste **liste, Liste *fin);
 
 Arbre *liste_arbre_tournoi(Liste *liste);
 
-/*  7 6   5  2   3
- *  \/    \ /   /
- *   6     2   3
- *
- *
+Liste* liste_acceder(Liste *liste, int pos);
+
+/* Nom de la fonction: tri_tas
+ * Entrees:
+ *   Liste *liste : Liste d'entiers
+ * Description:
+ *    Tri par tas
  */
+void liste_tri_tas(Liste *liste);
 #endif // LISTE_H
