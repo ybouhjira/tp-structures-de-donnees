@@ -88,7 +88,6 @@ Liste *liste_acceder(Liste *liste, int pos);
  */
 Liste *liste_intersection(Liste *l1, Liste *l2);
 
-
 /* Entrées :
  *    Liste *liste : Une liste chainée
  *    cmp : fonction de comparaison de deux éléments
@@ -96,7 +95,6 @@ Liste *liste_intersection(Liste *l1, Liste *l2);
  *    Fait le tri à bulle de la liste
  */
 void liste_tri_bulles(Liste *liste);
-
 
 /* Entrées :
  *    Liste *liste : Une liste chainée
@@ -107,24 +105,86 @@ void liste_tri_bulles(Liste *liste);
  */
 void liste_echange(Liste *liste, int pos1, int pos2);
 
+/* Nom de la fonction: liste_ajout_fin
+ * Entrees:
+ *   Liste **liste : Liste d'entiers
+ *   int val : Valeur à insérer
+ * Description:
+ *    Ajout la valeur à la fin de la liste
+ */
 void liste_ajout_fin(Liste **liste, int val);
 
+/* Nom de la fonction: liste_ajout_fin
+ * Entrees:
+ *   Liste **liste : Liste d'entiers
+ *   int val : La valeur à ajouter
+ * Description:
+ *    ajoute un élément au début de la liste
+ */
 void liste_ajout_debut(Liste **liste, int val);
 
+/* Nom de la fonction: liste_insertion_ordonnee
+ * Entrees:
+ *   Liste **liste : Liste d'entiers
+ *   int val : Valeur à insérer
+ * Description:
+ *    Insérer un élément à la bonne position dans une liste ordonné
+ * (avant le premier nombre supérieur)
+ */
 void liste_insertion_ordonnee(Liste **liste, int val);
 
+/* Nom de la fonction: liste_afficher
+ * Entrees:
+ *   Liste *liste : Liste d'entiers
+ *   Liste *fin : Fin de la liste
+ * Description:
+ *    Afficher la liste sous le formate suivant :
+ * [1, 2, 3, 4]
+ */
 void liste_afficher(Liste *liste, Liste *fin);
 
+/* Nom de la fonction: liste_tri_insertion
+ * Entrees:
+ *   Liste *liste : Liste d'entiers
+ * Description:
+ *    Tri par insertion
+ */
 void liste_tri_insertion(Liste **liste);
 
+/* Nom de la fonction: liste_min
+ * Entrees:
+ *   Liste *liste : Liste d'entiers
+ * Description:
+ *    Retourne le minimum d'une liste
+ */
 Liste* liste_min(Liste* liste);
 
+/* Nom de la fonction: liste_tri_selection
+ * Entrees:
+ *   Liste **liste : Liste d'entiers
+ * Description:
+ *    Tri par selection
+ */
 void liste_tri_selection(Liste **liste);
 
+/* Nom de la fonction: liste_tri_rapide
+ * Entrees:
+ *   Liste *liste : Liste d'entiers
+ *   Liste *fin : dernier élément de la liste
+ * Description:
+ *    Tri rapide
+ */
 void liste_tri_rapide(Liste **liste, Liste *fin);
 
-Arbre *liste_arbre_tournoi(Liste *liste);
+//Arbre *liste_arbre_tournoi(Liste *liste);
 
+/* Nom de la fonction: Liste_acceder
+ * Entrees:
+ *   Liste *liste : Une liste d'entiers
+ *   int pos : position de l'élément cible
+ * Description:
+ *    Retourne l'élément à la position pos
+ */
 Liste* liste_acceder(Liste *liste, int pos);
 
 /* Nom de la fonction: tri_tas
@@ -134,4 +194,5 @@ Liste* liste_acceder(Liste *liste, int pos);
  *    Tri par tas
  */
 void liste_tri_tas(Liste *liste);
+
 #endif // LISTE_H
