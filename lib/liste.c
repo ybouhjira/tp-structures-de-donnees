@@ -394,5 +394,7 @@ void liste_tri_tas(Liste *liste)
     {
         echange_valeurs(&liste_acceder(liste, i)->val, &liste->val);
         plasser(liste, 0, i - 1);
+        liste_afficher(liste, NULL);
+        printf("\n");
     }
 }
