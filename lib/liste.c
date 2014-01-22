@@ -101,19 +101,44 @@ Liste* liste_acceder(Liste *liste, int pos)
   return courant;
 }
 
-Liste* liste_intersection(Liste *l1, Liste *l2)
+//fonction qui calcule le nombre de cellules dans une liste chainees
+int longueur_liste(nliste *liste)
 {
-  if(!l1 && !l2) return NULL;
-  Liste *intersect = NULL;
-
-  Liste *courant;
-  for(courant = l1; courant; courant = courant->suiv )
+    int i=0;
+    nliste *tmp = liste;
+    while(tmp)
     {
-      if(liste_recherche(courant->val, l2) >= 0)
-        liste_ajout_fin(&intersect, courant->val);
+        tmp = tmp->suiv;
+        i++;
     }
+    return i;
+}
 
-  return intersect;
+//fonction qui determine l'intersection entre deux listes chainees
+nliste *liste_intersection(nliste *l1, nliste *l2)
+{
+    if(!l1 && !l2) return NULL;
+    nliste *intersect = NULL;
+    
+    nliste *courant;
+    
+    if(longueur_liste(l1) > longueur_liste(l2))
+    {
+       for(courant = l1; courant; courant = courant->suiv )
+       {
+          if(liste_recherche(courant->val, l2) >= 0)
+            liste_ajout_fin(&intersect, courant->val);
+       }
+    }
+    else
+    {
+        for(courant = l2; courant; courant = courant->suiv )
+        {
+            if(liste_recherche(courant->val, l1) >= 0)
+                liste_ajout_fin(&intersect, courant->val);
+        }
+    }
+    return intersect;
 }
 
 void echange_valeurs(int *val1, int *val2)
