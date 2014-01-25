@@ -102,10 +102,10 @@ Liste* liste_acceder(Liste *liste, int pos)
 }
 
 //fonction qui calcule le nombre de cellules dans une liste chainees
-int longueur_liste(nliste *liste)
+int longueur_liste(Liste *liste)
 {
     int i=0;
-    nliste *tmp = liste;
+    Liste *tmp = liste;
     while(tmp)
     {
         tmp = tmp->suiv;
@@ -115,12 +115,12 @@ int longueur_liste(nliste *liste)
 }
 
 //fonction qui determine l'intersection entre deux listes chainees
-nliste *liste_intersection(nliste *l1, nliste *l2)
+Liste *liste_intersection(Liste *l1, Liste *l2)
 {
     if(!l1 && !l2) return NULL;
-    nliste *intersect = NULL;
+    Liste *intersect = NULL;
     
-    nliste *courant;
+    Liste *courant;
     
     if(longueur_liste(l1) > longueur_liste(l2))
     {
