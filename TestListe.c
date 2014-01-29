@@ -112,6 +112,8 @@ void test_liste_intersection(CuTest *tc)
   liste_inserer(&liste2, 4, 0);
   liste_inserer(&liste2, 5, 0);
   liste_inserer(&liste2, 6, 0);
+  liste_inserer(&liste2, 7, 0);
+  liste_inserer(&liste2, 8, 0);
 
 
   Liste *intersect = liste_intersection(liste1, liste2);
