@@ -89,8 +89,9 @@ Liste *liste_acceder(Liste *liste, int pos);
 Liste *liste_intersection(Liste *l1, Liste *l2);
 
 /* Entrées :
- *    Liste *liste : Une liste chainée
- *    cmp : fonction de comparaison de deux éléments
+ *    liste : Une liste chainée
+ *    trace : indiquez avec cette variable si vous voulez afficher la trace
+ * de l'algorithme
  * Description:
  *    Fait le tri à bulle de la liste
  */
@@ -153,7 +154,9 @@ void liste_tri_insertion(Liste **liste, int trace);
 
 /* Nom de la fonction: liste_min
  * Entrees:
- *   Liste *liste : Liste d'entiers
+ *    liste : Liste d'entiers
+ *    trace : indiquez avec cette variable si vous voulez afficher la trace
+ * de l'algorithme
  * Description:
  *    Retourne le minimum d'une liste
  */
@@ -161,7 +164,7 @@ Liste* liste_min(Liste* liste);
 
 /* Nom de la fonction: liste_tri_selection
  * Entrees:
- *   Liste **liste : Liste d'entiers
+ *   liste : Liste d'entiers
  * Description:
  *    Tri par selection
  */
@@ -171,6 +174,8 @@ void liste_tri_selection(Liste **liste, int trace);
  * Entrees:
  *   Liste *liste : Liste d'entiers
  *   Liste *fin : dernier élément de la liste
+ *   trace : indiquez avec cette variable si vous voulez afficher la trace
+ * de l'algorithme
  * Description:
  *    Tri rapide
  */
@@ -190,6 +195,8 @@ Liste* liste_acceder(Liste *liste, int pos);
 /* Nom de la fonction: tri_tas
  * Entrees:
  *   Liste *liste : Liste d'entiers
+ *   trace : indiquez avec cette variable si vous voulez afficher la trace
+ * de l'algorithme
  * Description:
  *    Tri par tas
  */
