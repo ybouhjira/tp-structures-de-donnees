@@ -247,7 +247,7 @@ void liste_insertion_ordonnee(Liste** liste,  int val)
     }
 }
 
-void liste_tri_insertion(Liste **liste)
+void liste_tri_insertion(Liste **liste, int trace)
 {
   // Vide ou contient 1 élément
   if(!(*liste) || !(*liste)->suiv) return;
@@ -266,7 +266,8 @@ void liste_tri_insertion(Liste **liste)
           free(supprimer);
         }
       else  courant = courant->suiv;
-      liste_afficher(*liste, NULL);
+
+      if(trace) liste_afficher(*liste, NULL);
       printf("\n");
     }
 }

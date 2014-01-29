@@ -149,7 +149,7 @@ void liste_afficher(Liste *liste, Liste *fin);
  * Description:
  *    Tri par insertion
  */
-void liste_tri_insertion(Liste **liste);
+void liste_tri_insertion(Liste **liste, int trace);
 
 /* Nom de la fonction: liste_min
  * Entrees:

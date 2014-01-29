@@ -210,7 +210,7 @@ void test_liste_tri_insertion(CuTest *tc)
   int i;
   for(i = 0; i < 100; ++i) liste_ajout_fin(&liste, rand() % 1000);
 
-  liste_tri_insertion(&liste);
+  liste_tri_insertion(&liste, 0);
   CuAssertIntEquals(tc, 100, liste_taille(liste));
 
   // Test
