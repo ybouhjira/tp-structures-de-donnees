@@ -9,9 +9,12 @@ SOURCES += \
     CuTest/CuTest.c \
     lib/liste.c \
     lib/arbre.c \
-    TestArbre.c
+    TestArbre.c \
+    lib/pile.cpp \
+    TestPile.c
 
 HEADERS += CuTest/CuTest.h \
     lib/liste.h \
-    lib/arbre.h
+    lib/arbre.h \
+    lib/pile.h
 
