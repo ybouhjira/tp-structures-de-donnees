@@ -199,7 +199,7 @@ void liste_afficher(Liste *liste, Liste *fin)
   printf("]");
 }
 
-void liste_tri_bulles(Liste *liste)
+void liste_tri_bulles(Liste *liste, int trace)
 {
   // Le dernier élément à tester dans une itération
   Liste *fin = NULL;
@@ -219,8 +219,11 @@ void liste_tri_bulles(Liste *liste)
             }
           courant = courant->suiv;
         }
-      liste_afficher(liste, NULL);
-      printf("\n");
+      if(trace)
+        {
+          liste_afficher(liste, NULL);
+          printf("\n");
+        }
       if(!echange) return;
       fin = courant;
     }
@@ -302,7 +305,7 @@ void liste_tri_selection(Liste **liste, int trace)
     }
 }
 
-void liste_tri_rapide(Liste **liste, Liste *fin)
+void liste_tri_rapide(Liste **liste, Liste *fin, int trace)
 {
   // Liste vide ou contient 1 élément
   if(!(*liste) || !(*liste)->suiv) return;
@@ -332,15 +335,18 @@ void liste_tri_rapide(Liste **liste, Liste *fin)
     }
 
   // affichage de la trace de l'algorithme
-  liste_afficher(inf, *liste);
-  printf(" %d ", (*liste)->val);
-  liste_afficher((*liste)->suiv, fin);
-  printf("\n");
+  if(trace)
+    {
+      liste_afficher(inf, *liste);
+      printf(" %d ", (*liste)->val);
+      liste_afficher((*liste)->suiv, fin);
+      printf("\n");
+    }
 
   // Faire la meme chose pour la liste des éléments inf et supérieur
-  if(inf && inf->suiv != *liste) liste_tri_rapide(&inf, *liste);
+  if(inf && inf->suiv != *liste) liste_tri_rapide(&inf, *liste, trace);
   if((*liste)->suiv && (*liste)->suiv->suiv != NULL)
-    liste_tri_rapide(&(*liste)->suiv, NULL);
+    liste_tri_rapide(&(*liste)->suiv, NULL, trace);
 
   // changement de la tete de la liste
   if(inf) *liste = inf;
@@ -421,7 +427,7 @@ void plasser(Liste *liste, int indice, int taille)
     }
 }
 
-void liste_tri_tas(Liste *liste)
+void liste_tri_tas(Liste *liste, int trace)
 {
   int i, taille = liste_taille(liste) - 1;
   for(i = taille / 2; i >= 0; --i) plasser(liste, i, taille);
@@ -429,7 +435,10 @@ void liste_tri_tas(Liste *liste)
     {
       echange_valeurs(&liste_acceder(liste, i)->val, &liste->val);
       plasser(liste, 0, i - 1);
-      liste_afficher(liste, NULL);
-      printf("\n");
+      if(trace)
+        {
+          liste_afficher(liste, NULL);
+          printf("\n");
+        }
     }
 }

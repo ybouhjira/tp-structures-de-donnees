@@ -94,7 +94,7 @@ Liste *liste_intersection(Liste *l1, Liste *l2);
  * Description:
  *    Fait le tri à bulle de la liste
  */
-void liste_tri_bulles(Liste *liste);
+void liste_tri_bulles(Liste *liste, int trace);
 
 /* Entrées :
  *    Liste *liste : Une liste chainée
@@ -174,7 +174,7 @@ void liste_tri_selection(Liste **liste, int trace);
  * Description:
  *    Tri rapide
  */
-void liste_tri_rapide(Liste **liste, Liste *fin);
+void liste_tri_rapide(Liste **liste, Liste *fin, int trace);
 
 //Arbre *liste_arbre_tournoi(Liste *liste);
 
@@ -193,6 +193,6 @@ Liste* liste_acceder(Liste *liste, int pos);
  * Description:
  *    Tri par tas
  */
-void liste_tri_tas(Liste *liste);
+void liste_tri_tas(Liste *liste, int trace);
 
 #endif // LISTE_H

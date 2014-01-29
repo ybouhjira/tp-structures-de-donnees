@@ -152,7 +152,7 @@ void test_liste_tri_bulles(CuTest *tc)
   int i;
   for(i = 0; i < 10; ++i) liste_ajout_fin(&liste, rand() % 100);
 
-  liste_tri_bulles(liste);
+  liste_tri_bulles(liste, 0);
   CuAssertIntEquals(tc, 10, liste_taille(liste));
 
   // Test
@@ -268,7 +268,7 @@ void test_liste_tri_rapide(CuTest *tc)
   int i;
   for(i = 0; i < 10; ++i) liste_ajout_fin(&liste, rand() % 1000);
 
-  liste_tri_rapide(&liste, NULL);
+  liste_tri_rapide(&liste, NULL, 0);
   CuAssertIntEquals(tc, 10, liste_taille(liste));
 
   // Test
@@ -288,7 +288,7 @@ void test_liste_tri_tas(CuTest *tc)
   int i;
   for(i = 0; i < 10; ++i) liste_ajout_fin(&liste, rand() % 1000);
 
-  liste_tri_tas(liste);
+  liste_tri_tas(liste, 0);
   CuAssertIntEquals(tc, 10, liste_taille(liste));
 
   // Test
