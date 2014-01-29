@@ -248,7 +248,7 @@ void test_liste_tri_selection(CuTest *tc)
   int i;
   for(i = 0; i < 100; ++i) liste_ajout_fin(&liste, rand() % 1000);
 
-  liste_tri_selection(&liste);
+  liste_tri_selection(&liste, 0);
   CuAssertIntEquals(tc, 100, liste_taille(liste));
 
   // Test

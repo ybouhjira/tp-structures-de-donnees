@@ -104,41 +104,41 @@ Liste* liste_acceder(Liste *liste, int pos)
 //fonction qui calcule le nombre de cellules dans une liste chainees
 int longueur_liste(Liste *liste)
 {
-    int i=0;
-    Liste *tmp = liste;
-    while(tmp)
+  int i=0;
+  Liste *tmp = liste;
+  while(tmp)
     {
-        tmp = tmp->suiv;
-        i++;
+      tmp = tmp->suiv;
+      i++;
     }
-    return i;
+  return i;
 }
 
 //fonction qui determine l'intersection entre deux listes chainees
 Liste *liste_intersection(Liste *l1, Liste *l2)
 {
-    if(!l1 && !l2) return NULL;
-    Liste *intersect = NULL;
-    
-    Liste *courant;
-    
-    if(longueur_liste(l1) > longueur_liste(l2))
+  if(!l1 && !l2) return NULL;
+  Liste *intersect = NULL;
+
+  Liste *courant;
+
+  if(longueur_liste(l1) > longueur_liste(l2))
     {
-       for(courant = l1; courant; courant = courant->suiv )
-       {
+      for(courant = l1; courant; courant = courant->suiv )
+        {
           if(liste_recherche(courant->val, l2) >= 0)
             liste_ajout_fin(&intersect, courant->val);
-       }
-    }
-    else
-    {
-        for(courant = l2; courant; courant = courant->suiv )
-        {
-            if(liste_recherche(courant->val, l1) >= 0)
-                liste_ajout_fin(&intersect, courant->val);
         }
     }
-    return intersect;
+  else
+    {
+      for(courant = l2; courant; courant = courant->suiv )
+        {
+          if(liste_recherche(courant->val, l1) >= 0)
+            liste_ajout_fin(&intersect, courant->val);
+        }
+    }
+  return intersect;
 }
 
 void echange_valeurs(int *val1, int *val2)
@@ -267,8 +267,11 @@ void liste_tri_insertion(Liste **liste, int trace)
         }
       else  courant = courant->suiv;
 
-      if(trace) liste_afficher(*liste, NULL);
-      printf("\n");
+      if(trace)
+        {
+          liste_afficher(*liste, NULL);
+          printf("\n");
+        }
     }
 }
 
@@ -283,7 +286,7 @@ Liste* liste_min(Liste* liste)
   return min;
 }
 
-void liste_tri_selection(Liste **liste)
+void liste_tri_selection(Liste **liste, int trace)
 {
   Liste *courant = *liste, *min;
   for(courant = *liste; courant && courant->suiv; courant = courant->suiv)
@@ -291,8 +294,11 @@ void liste_tri_selection(Liste **liste)
       min = liste_min(courant);
       if(courant->val > min->val)
         echange_valeurs(&courant->val, &min->val);
-      liste_afficher(*liste, NULL);
-      printf("\n");
+      if(trace)
+        {
+          liste_afficher(*liste, NULL);
+          printf("\n");
+        }
     }
 }
 
@@ -395,35 +401,35 @@ int min(int a, int b)
  */
 void plasser(Liste *liste, int indice, int taille)
 {
-    int k, j;
-    k = indice;
-    j = 2 * k;
-    while(j <= taille)
+  int k, j;
+  k = indice;
+  j = 2 * k;
+  while(j <= taille)
     {
-        Liste *jElem = liste_acceder(liste, j);
-        if((j < taille) && (jElem->val < jElem->suiv->val)) ++j;
+      Liste *jElem = liste_acceder(liste, j);
+      if((j < taille) && (jElem->val < jElem->suiv->val)) ++j;
 
-        Liste *kElem = liste_acceder(liste, k);
-        jElem = liste_acceder(liste, j);
-        if(kElem->val < jElem->val)
+      Liste *kElem = liste_acceder(liste, k);
+      jElem = liste_acceder(liste, j);
+      if(kElem->val < jElem->val)
         {
-            echange_valeurs(&kElem->val, &jElem->val);
-            k = j;
-            j = 2 * k;
+          echange_valeurs(&kElem->val, &jElem->val);
+          k = j;
+          j = 2 * k;
         }
-        else break;
+      else break;
     }
 }
 
 void liste_tri_tas(Liste *liste)
 {
-    int i, taille = liste_taille(liste) - 1;
-    for(i = taille / 2; i >= 0; --i) plasser(liste, i, taille);
-    for(i = taille; i >= 1; --i)
+  int i, taille = liste_taille(liste) - 1;
+  for(i = taille / 2; i >= 0; --i) plasser(liste, i, taille);
+  for(i = taille; i >= 1; --i)
     {
-        echange_valeurs(&liste_acceder(liste, i)->val, &liste->val);
-        plasser(liste, 0, i - 1);
-        liste_afficher(liste, NULL);
-        printf("\n");
+      echange_valeurs(&liste_acceder(liste, i)->val, &liste->val);
+      plasser(liste, 0, i - 1);
+      liste_afficher(liste, NULL);
+      printf("\n");
     }
 }

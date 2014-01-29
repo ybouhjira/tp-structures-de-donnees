@@ -165,7 +165,7 @@ Liste* liste_min(Liste* liste);
  * Description:
  *    Tri par selection
  */
-void liste_tri_selection(Liste **liste);
+void liste_tri_selection(Liste **liste, int trace);
 
 /* Nom de la fonction: liste_tri_rapide
  * Entrees:
