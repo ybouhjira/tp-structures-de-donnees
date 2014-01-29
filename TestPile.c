@@ -24,10 +24,30 @@ void test_pile_empiler(CuTest *tc)
   CuAssertTrue(tc, NULL == pile->suiv->suiv->suiv);
 }
 
+void test_pile_depiler(CuTest *tc)
+{
+  Pile *pile = NULL;
+
+  int i;
+  for(i = 0; i < 10; ++i) pile_empiler(&pile, i);
+
+  CuAssertIntEquals(tc, 10, liste_taille(pile));
+
+  for(i = 9; i >= 0; --i)
+    {
+      int valeur = pile_depiler(&pile);
+      CuAssertIntEquals(tc, i, liste_taille(pile));
+      CuAssertIntEquals(tc, i, valeur);
+    }
+
+  CuAssertTrue(tc, pile == NULL);
+}
+
 CuSuite *Pile_get_suite()
 {
   CuSuite *suite = CuSuiteNew();
   SUITE_ADD_TEST(suite, test_pile_empiler);
+  SUITE_ADD_TEST(suite, test_pile_depiler);
   return suite;
 }
 
