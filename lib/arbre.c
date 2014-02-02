@@ -145,7 +145,7 @@ void Supprimer_arbre_ordonnee(Arbre **arbre, int val)
 
 int arbre_egaux(Arbre *arbre1, Arbre *arbre2)
 {
-  if(!arbre1 || !arbre2) return arbre1 == arbre2;
+  if(!arbre1 || !arbre2) return arbre1 == NULL && arbre2 == NULL;
   return arbre1->val == arbre2->val
       && arbre_egaux(arbre1->droit, arbre2->droit)
       && arbre_egaux(arbre1->gauche, arbre2->gauche);

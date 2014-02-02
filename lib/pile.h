@@ -16,4 +16,11 @@ typedef Liste Pile;
   */
 int pile_depiler(Pile **pile);
 
+/** Entrées :
+  *   pile : Une pile
+  * Description :
+  *
+  */
+void pile_afficher(Pile **pile);
+
 #endif // PILE_H

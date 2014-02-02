@@ -43,11 +43,23 @@ void test_pile_depiler(CuTest *tc)
   CuAssertTrue(tc, pile == NULL);
 }
 
+void test_pile_afficher(CuTest *tc)
+{
+  Pile *pile = NULL;
+  int i;
+  for(i = 0; i < 10; ++i) pile_empiler(&pile, i);
+
+  pile_afficher(&pile);
+
+  CuAssertIntEquals(tc, 10, liste_taille(pile));
+}
+
 CuSuite *Pile_get_suite()
 {
   CuSuite *suite = CuSuiteNew();
   SUITE_ADD_TEST(suite, test_pile_empiler);
   SUITE_ADD_TEST(suite, test_pile_depiler);
+  SUITE_ADD_TEST(suite, test_pile_afficher);
   return suite;
 }
 

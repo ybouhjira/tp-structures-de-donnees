@@ -121,6 +121,7 @@ void test_arbre_egaux(CuTest *tc)
   CuAssertTrue(tc, arbre_egaux(a1, b1));
 
   arbre_detruire(&b7);
+  b2->gauche = NULL;
 
   CuAssertTrue(tc, !arbre_egaux(a1, b1));
 
