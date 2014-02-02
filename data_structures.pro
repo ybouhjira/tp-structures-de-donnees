@@ -11,10 +11,13 @@ SOURCES += \
     lib/arbre.c \
     TestArbre.c \
     TestPile.c \
-    lib/pile.c
+    lib/pile.c \
+    TestFile.c \
+    lib/file.c
 
 HEADERS += CuTest/CuTest.h \
     lib/liste.h \
     lib/arbre.h \
-    lib/pile.h
+    lib/pile.h \
+    lib/file.h
 

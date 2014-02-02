@@ -4,7 +4,7 @@
 CuSuite *Liste_get_suite();
 CuSuite *Arbre_get_suite();
 CuSuite *Pile_get_suite();
-
+CuSuite *File_get_suite();
 
 void RunAllTests()
 {
@@ -14,6 +14,7 @@ void RunAllTests()
     CuSuiteAddSuite(suite, Liste_get_suite());
     CuSuiteAddSuite(suite, Arbre_get_suite());
     CuSuiteAddSuite(suite, Pile_get_suite());
+    CuSuiteAddSuite(suite, File_get_suite());
 
     CuSuiteRun(suite);
     CuSuiteSummary(suite, output);

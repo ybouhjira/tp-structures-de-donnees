@@ -19,7 +19,7 @@ int pile_depiler(Pile **pile);
 /** Entrées :
   *   pile : Une pile
   * Description :
-  *
+  *   Afficher la pile sans changer son contenu
   */
 void pile_afficher(Pile **pile);
 
