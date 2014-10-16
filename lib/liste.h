@@ -47,6 +47,14 @@ void liste_inserer(Liste **liste, int val, int pos);
 
 /* Entrées :
  *    Liste *liste : Une liste chainée
+ *    int val : La valeur à inserer
+ * Description:
+ *    Inserer l'élément val au début de la liste
+ */
+void liste_inserer_debut(Liste **liste, int val);
+
+/* Entrées :
+ *    Liste *liste : Une liste chainée
  *    unsigned int pos :
  * Description:
  *    Supprime l'élément à la position indiquée
@@ -81,10 +89,8 @@ Liste *liste_acceder(Liste *liste, int pos);
 /* Entrées :
  *  Liste *l1 : première liste
  *  Liste *l2 : deuxième liste
- * Sorties :
+ * Sortie :
  *  Liste* intersect : intersection des deux listes
- * Description:
- *    Retourne l'intersection de deux listes
  */
 Liste *liste_intersection(Liste *l1, Liste *l2);
 

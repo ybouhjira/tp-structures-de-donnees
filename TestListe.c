@@ -6,7 +6,31 @@
 
 #include "lib/liste.h"
 
-// Tests
+void test_liste_ajout_debut(CuTest *tc)
+{
+  Liste *liste = NULL;
+  liste_ajout_debut(&liste, 5);
+
+  CuAssertIntEquals(tc, 1, liste_taille(liste));
+  CuAssertIntEquals(tc, 5, liste->val);
+
+  int i = 0;
+  for(i = 0; i < 10; i++)
+    {
+      liste_ajout_debut(&liste, i);
+    }
+
+  CuAssertIntEquals(tc, 11, liste_taille(liste));
+  Liste *courant = liste;
+
+
+  for(i = 9; courant->suiv->val != 5; i--)
+    {
+      CuAssertIntEquals(tc, i, courant->val);
+      courant = courant->suiv;
+    }
+}
+
 void test_inserer_liste(CuTest *tc)
 {
   Liste *liste = NULL;
@@ -302,6 +326,7 @@ void test_liste_tri_tas(CuTest *tc)
 CuSuite* Liste_get_suite()
 {
   CuSuite *suite = CuSuiteNew();
+  SUITE_ADD_TEST(suite, test_liste_ajout_debut);
   SUITE_ADD_TEST(suite, test_liste_acceder);
   SUITE_ADD_TEST(suite, test_inserer_liste);
   SUITE_ADD_TEST(suite, test_premier_liste);
