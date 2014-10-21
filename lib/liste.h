@@ -13,6 +13,17 @@ typedef struct Liste
   struct Liste *suiv;
 } Liste;
 
+
+/*
+ * Entrées:
+ *  liste : La liste d'origine
+ *  pos : La position
+ * Coupe la liste liste à la position pos
+ */
+Liste* liste_couper(Liste **liste, int pos);
+
+void liste_ajouter_suite(Liste **liste, char *suite);
+
 /* Sorties :
  *    Liste *liste : Une liste chainée
  * Description:

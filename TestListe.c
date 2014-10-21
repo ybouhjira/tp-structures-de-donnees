@@ -6,6 +6,63 @@
 
 #include "lib/liste.h"
 
+void test_liste_couper_0(CuTest *tc)
+{
+  Liste *liste = NULL;
+  liste_ajouter_suite(&liste, "1 2 3 4 5 6 7 8 9");
+
+  Liste *liste2 = liste_couper(&liste, 0);
+
+  CuAssertIntEquals(tc, 0, liste_taille(liste));
+  CuAssertIntEquals(tc, 9, liste_taille(liste2));
+}
+
+void test_liste_couper_milieu(CuTest *tc)
+{
+  Liste *liste = NULL;
+  liste_ajouter_suite(&liste, "1 2 3 4 5 6 7 8 9");
+
+  Liste *liste2 = liste_couper(&liste, 3);
+
+  CuAssertIntEquals(tc, 3, liste_taille(liste));
+  CuAssertIntEquals(tc, 6, liste_taille(liste2));
+}
+
+void test_liste_couper_fin(CuTest *tc)
+{
+  Liste *liste = NULL;
+  liste_ajouter_suite(&liste, "1 2 3 4 5 6 7 8 9");
+
+  Liste *liste2 = NULL;
+
+  int tailleListe1 = liste_taille(liste);
+  int tailleListe2 = liste_taille(liste2);
+
+  liste2 = liste_couper(&liste, liste_taille(liste));
+
+  CuAssertIntEquals(tc, tailleListe1, liste_taille(liste));
+  CuAssertIntEquals(tc, tailleListe2, liste_taille(liste2));
+}
+
+void test_liste_ajout_suite(CuTest *tc)
+{
+  Liste *liste = NULL;
+  liste_ajouter_suite(&liste, "1 2 3 55 6");
+
+
+  CuAssertIntEquals(tc, 5, liste_taille(liste));
+
+  int numbers[5] = {1, 2, 3, 55, 6};
+  Liste *courant = liste;
+  int i = 0;
+  for(i = 0; i < 5; ++i)
+    {
+      CuAssertIntEquals(tc, numbers[i], courant->val);
+      courant = courant->suiv;
+    }
+
+}
+
 void test_liste_ajout_debut(CuTest *tc)
 {
   Liste *liste = NULL;
@@ -343,6 +400,11 @@ CuSuite* Liste_get_suite()
   SUITE_ADD_TEST(suite, test_liste_tri_selection);
   SUITE_ADD_TEST(suite, test_liste_tri_rapide);
   SUITE_ADD_TEST(suite, test_liste_tri_tas);
+  SUITE_ADD_TEST(suite, test_liste_couper_0);
+  SUITE_ADD_TEST(suite, test_liste_couper_milieu);
+  SUITE_ADD_TEST(suite, test_liste_ajout_suite);
+  SUITE_ADD_TEST(suite, test_liste_couper_fin);
+
   return suite;
 }
 

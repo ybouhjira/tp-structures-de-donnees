@@ -24,6 +24,55 @@ int liste_taille(Liste *liste)
   return taille;
 }
 
+Liste* liste_couper(Liste **liste, int pos)
+{
+  if(pos == 0)
+    {
+      Liste *liste2 = *liste;
+      *liste = NULL;
+      return liste2;
+    }
+  else
+    {
+      int i = 0;
+      Liste *courant = *liste;
+
+      while(courant && i < pos -1)
+        {
+          courant = courant->suiv;
+          i++;
+        }
+
+      if(i != pos - 1) // position invalide
+        {
+          assert(0);
+        }
+      else if(!courant->suiv) // couper à la fin liste1 = liste && liste2 = NULL
+        {
+          return NULL;
+        }
+      else
+        {
+          Liste *liste2 = courant->suiv;
+          courant->suiv = NULL;
+          return liste2;
+        }
+
+
+    }
+}
+
+void liste_ajouter_suite(Liste **liste, char *suite)
+{
+  char *ptr = suite;
+
+  while(ptr[0] != '\0')
+    {
+      int nombreCourant = (int) strtol(ptr, &ptr, 10);
+      liste_ajout_fin(liste, nombreCourant);
+    }
+}
+
 void liste_inserer(Liste **liste, int val, int pos)
 {
   // Conditions
