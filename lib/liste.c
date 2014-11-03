@@ -82,7 +82,14 @@ void liste_inserer(Liste **liste, int val, int pos)
   Liste *nouveau = liste_creer(val);
 
   // Insértion
-  if(!pos) liste_ajout_debut(liste, val);
+  if(pos == 0)
+    {
+      liste_ajout_debut(liste, val);
+    }
+  else if(!(*liste))
+    {
+      assert(0); // Erreur : liste vide pos doit etre 0
+    }
   else
     {
       Liste *courant = *liste;
@@ -155,19 +162,6 @@ Liste* liste_acceder(Liste *liste, int pos)
   return courant;
 }
 
-//fonction qui calcule le nombre de cellules dans une liste chainees
-int longueur_liste(Liste *liste)
-{
-  int i=0;
-  Liste *tmp = liste;
-  while(tmp)
-    {
-      tmp = tmp->suiv;
-      i++;
-    }
-  return i;
-}
-
 //fonction qui determine l'intersection entre deux listes chainees
 Liste *liste_intersection(Liste *l1, Liste *l2)
 {
@@ -176,14 +170,18 @@ Liste *liste_intersection(Liste *l1, Liste *l2)
 
   Liste *courant;
 
-  if(longueur_liste(l1) > longueur_liste(l2))
+  if(liste_taille(l1) > liste_taille(l2))
+    {
       for(courant = l1; courant; courant = courant->suiv )
           if(liste_recherche(courant->val, l2, NULL) >= 0)
             liste_ajout_fin(&intersect, courant->val);
+    }
   else
+    {
       for(courant = l2; courant; courant = courant->suiv )
           if(liste_recherche(courant->val, l1, NULL) >= 0)
             liste_ajout_fin(&intersect, courant->val);
+    }
   return intersect;
 }
 

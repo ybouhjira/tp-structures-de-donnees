@@ -6,6 +6,20 @@
 
 #include "lib/liste.h"
 
+void test_inserer_liste_1(CuTest *tc)
+{
+  Liste *liste = NULL;
+  liste_inserer(&liste, 0, 0);
+  CuAssertIntEquals(tc, 1, liste_taille(liste));
+  CuAssertIntEquals(tc, 0, liste->val);
+
+  liste_ajouter_suite(&liste, "1 2 3 4");
+  liste_inserer(&liste, 5, liste_taille(liste));
+
+
+  CuAssertIntEquals(tc, 6, liste_taille(liste));
+}
+
 void test_liste_couper_0(CuTest *tc)
 {
   Liste *liste = NULL;
@@ -163,8 +177,8 @@ void test_liste_pos(CuTest *tc)
   for(i = 0; i < 19; ++i)
     liste_inserer(&liste, i, liste_taille(liste));
 
-  CuAssertIntEquals(tc, 3, liste_recherche(3, liste));
-  CuAssertIntEquals(tc, -1, liste_recherche(44, liste));
+  CuAssertIntEquals(tc, 3, liste_recherche(3, liste, NULL));
+  CuAssertIntEquals(tc, -1, liste_recherche(44, liste, NULL));
   liste_detruire(&liste);
 }
 
@@ -199,9 +213,9 @@ void test_liste_intersection(CuTest *tc)
 
   Liste *intersect = liste_intersection(liste1, liste2);
 
-  CuAssertIntEquals(tc, liste_taille(intersect), 2);
-  CuAssertTrue(tc, -1 != liste_recherche(3, intersect));
-  CuAssertTrue(tc, -1 != liste_recherche(4, intersect));
+  CuAssertIntEquals(tc, 2, liste_taille(intersect));
+  CuAssertTrue(tc, -1 != liste_recherche(3, intersect, NULL));
+  CuAssertTrue(tc, -1 != liste_recherche(4, intersect, NULL));
   liste_detruire(&liste1);
   liste_detruire(&liste2);
 }
@@ -404,6 +418,7 @@ CuSuite* Liste_get_suite()
   SUITE_ADD_TEST(suite, test_liste_couper_milieu);
   SUITE_ADD_TEST(suite, test_liste_ajout_suite);
   SUITE_ADD_TEST(suite, test_liste_couper_fin);
+  SUITE_ADD_TEST(suite, test_inserer_liste_1);
 
   return suite;
 }
