@@ -128,13 +128,18 @@ void liste_detruire(Liste **liste)
   liste = NULL;
 }
 
-int liste_recherche(int val, Liste *liste)
+int liste_recherche(int val, Liste *liste, Liste **elem)
 {
   Liste *courant = liste;
   int pos;
   for(pos = 0; courant; ++pos, courant = courant->suiv)
-    if(courant->val == val)
-      return pos;
+    {
+      if(courant->val == val)
+        {
+          if(elem) *elem = courant;
+          return pos;
+        }
+    }
   return -1;
 }
 
@@ -172,21 +177,13 @@ Liste *liste_intersection(Liste *l1, Liste *l2)
   Liste *courant;
 
   if(longueur_liste(l1) > longueur_liste(l2))
-    {
       for(courant = l1; courant; courant = courant->suiv )
-        {
-          if(liste_recherche(courant->val, l2) >= 0)
+          if(liste_recherche(courant->val, l2, NULL) >= 0)
             liste_ajout_fin(&intersect, courant->val);
-        }
-    }
   else
-    {
       for(courant = l2; courant; courant = courant->suiv )
-        {
-          if(liste_recherche(courant->val, l1) >= 0)
+          if(liste_recherche(courant->val, l1, NULL) >= 0)
             liste_ajout_fin(&intersect, courant->val);
-        }
-    }
   return intersect;
 }
 

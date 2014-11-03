@@ -75,16 +75,13 @@ void liste_supprimer(Liste **liste, int pos);
 /* Entrées :
  *    void *val : Valeur recherché
  *    Liste *liste : Une liste
- *    int cmp(int elem1, int elem2, size_t) : fonction de comparaison
- * doit retourner 0 si elem1 égale elem2, un nombre négatif ou négatif
- * respectivement si elem1 < elem2 ou elem1 > elem2.
- * Sorties :
- *    int pos : La premier position dans laquelle la valeur existe, ou -1
+ * Sortie :
+ *     La premier position dans laquelle la valeur existe, ou -1
  *  si cette valeur n'a pas pu etre trouvé
  * Description:
  *    Retourne la position de la valeur val dans la liste
  */
-int liste_recherche(int val, Liste *liste);
+int liste_recherche(int val, Liste *liste, Liste **elem);
 
 /* Entrées :
  *  Liste *liste : Une liste
