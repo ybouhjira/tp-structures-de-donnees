@@ -6,6 +6,30 @@
 
 #include "lib/liste.h"
 
+void test_liste_copier(CuTest *tc)
+{
+  Liste *liste = NULL;
+
+  liste_ajouter_suite(&liste, "11 10 5 4 -1 6");
+
+  Liste *copie = liste_copier(liste);
+
+  CuAssertTrue(tc, copie != liste);
+  int taille = liste_taille(liste);
+  CuAssertIntEquals(tc, taille, liste_taille(copie));
+
+  // Comparer toutes les valeurs
+  int i;
+  Liste *ptrListe = liste, *ptrCopie = copie;
+  for (i = 0; i < taille; ++i)
+    {
+      CuAssertIntEquals(tc, ptrListe->val, ptrCopie->val);
+
+      ptrCopie = ptrCopie->suiv;
+      ptrListe = ptrListe->suiv;
+    }
+}
+
 void test_inserer_liste_1(CuTest *tc)
 {
   Liste *liste = NULL;
@@ -419,6 +443,7 @@ CuSuite* Liste_get_suite()
   SUITE_ADD_TEST(suite, test_liste_ajout_suite);
   SUITE_ADD_TEST(suite, test_liste_couper_fin);
   SUITE_ADD_TEST(suite, test_inserer_liste_1);
+  SUITE_ADD_TEST(suite, test_liste_copier);
 
   return suite;
 }

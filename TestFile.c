@@ -7,6 +7,28 @@
 
 #include "lib/file.h"
 
+void test_file_copier(CuTest *tc)
+{
+  File *file = NULL;
+
+  // Copier une file vide doit retourner une pile vide
+  CuAssertTrue(tc, file_copier(&file) == NULL);
+
+
+  int i;
+  for(i = 5; i < 50; i++)
+    file_enfiler(&file, i);
+
+  File *copie = file_copier(&file);
+
+  while(file)
+    {
+      CuAssertTrue(tc, copie != NULL);
+
+      CuAssertIntEquals(tc, file_defiler(&file), file_defiler(&copie));
+    }
+}
+
 void test_file_enfiler(CuTest *tc)
 {
   File *file = NULL;
@@ -60,5 +82,6 @@ CuSuite *File_get_suite()
   SUITE_ADD_TEST(suite, test_file_enfiler);
   SUITE_ADD_TEST(suite, test_file_defiler);
   SUITE_ADD_TEST(suite, test_file_afficher);
+  SUITE_ADD_TEST(suite, test_file_copier);
   return suite;
 }

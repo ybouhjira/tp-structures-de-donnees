@@ -16,6 +16,26 @@ Liste* liste_creer(int val)
   return liste;
 }
 
+
+Liste* liste_copier(Liste *liste)
+{
+  Liste *ptr = liste, *copie = NULL, *ptrCopie = NULL;
+
+  for(; ptr; ptr = ptr->suiv) {
+      if(!copie)
+        {
+          ptrCopie = copie = liste_creer(ptr->val);
+        }
+      else
+        {
+          ptrCopie->suiv = liste_creer(ptr->val);
+          ptrCopie = ptrCopie->suiv;
+        }
+    }
+
+  return copie;
+}
+
 int liste_taille(Liste *liste)
 {
   Liste *courant = liste;
@@ -173,14 +193,14 @@ Liste *liste_intersection(Liste *l1, Liste *l2)
   if(liste_taille(l1) > liste_taille(l2))
     {
       for(courant = l1; courant; courant = courant->suiv )
-          if(liste_recherche(courant->val, l2, NULL) >= 0)
-            liste_ajout_fin(&intersect, courant->val);
+        if(liste_recherche(courant->val, l2, NULL) >= 0)
+          liste_ajout_fin(&intersect, courant->val);
     }
   else
     {
       for(courant = l2; courant; courant = courant->suiv )
-          if(liste_recherche(courant->val, l1, NULL) >= 0)
-            liste_ajout_fin(&intersect, courant->val);
+        if(liste_recherche(courant->val, l1, NULL) >= 0)
+          liste_ajout_fin(&intersect, courant->val);
     }
   return intersect;
 }

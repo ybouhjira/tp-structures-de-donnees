@@ -22,3 +22,18 @@ void file_afficher(File **file)
 
   while(copie) file_enfiler(file, file_defiler(&copie));
 }
+
+File* file_copier(File **file)
+{
+  File *copie = NULL, *file2 = NULL;
+
+  while(*file)
+    {
+      int val = file_defiler(file);
+      file_enfiler(&file2, val);
+      file_enfiler(&copie, val);
+    }
+
+  *file = file2;
+  return copie;
+}

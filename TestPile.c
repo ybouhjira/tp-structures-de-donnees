@@ -6,6 +6,26 @@
 
 #include "lib/pile.h"
 
+void test_pile_copier(CuTest *tc)
+{
+  Pile *pile = NULL;
+
+  // Doit retourner une pile vide si on copie une pile vide
+  CuAssertTrue(tc, pile_copier(&pile) == NULL);
+
+  int i;
+  for(i = 3; i < 42; i++)
+    pile_empiler(&pile, i);
+
+  Pile *copie = pile_copier(&pile);
+
+  while(pile)
+    {
+      CuAssertTrue(tc, copie != NULL); // pile etre de meme taille que copie
+      CuAssertIntEquals(tc, pile_depiler(&pile), pile_depiler(&copie));
+    }
+}
+
 void test_pile_empiler(CuTest *tc)
 {
   Pile *pile = NULL;
@@ -13,7 +33,6 @@ void test_pile_empiler(CuTest *tc)
   pile_empiler(&pile, 1);
   pile_empiler(&pile, 2);
   pile_empiler(&pile, 3);
-
 
   CuAssertIntEquals(tc, 3, liste_taille(pile));
 
@@ -60,6 +79,8 @@ CuSuite *Pile_get_suite()
   SUITE_ADD_TEST(suite, test_pile_empiler);
   SUITE_ADD_TEST(suite, test_pile_depiler);
   SUITE_ADD_TEST(suite, test_pile_afficher);
+  SUITE_ADD_TEST(suite, test_pile_copier);
+
   return suite;
 }
 

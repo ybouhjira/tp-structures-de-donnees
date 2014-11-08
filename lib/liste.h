@@ -24,6 +24,14 @@ Liste* liste_couper(Liste **liste, int pos);
 
 void liste_ajouter_suite(Liste **liste, char *suite);
 
+/*
+ * Entrées:
+ *  liste : Une liste
+ * Sortie :
+ *  Copie de la liste
+ */
+Liste* liste_copier(Liste *liste);
+
 /* Sorties :
  *    Liste *liste : Une liste chainée
  * Description:
