@@ -66,14 +66,6 @@ void liste_inserer(Liste **liste, int val, int pos);
 
 /* Entrées :
  *    Liste *liste : Une liste chainée
- *    int val : La valeur à inserer
- * Description:
- *    Inserer l'élément val au début de la liste
- */
-void liste_inserer_debut(Liste **liste, int val);
-
-/* Entrées :
- *    Liste *liste : Une liste chainée
  *    unsigned int pos :
  * Description:
  *    Supprime l'élément à la position indiquée
