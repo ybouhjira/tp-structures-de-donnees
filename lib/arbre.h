@@ -4,7 +4,7 @@
 typedef struct Arbre
 {
   int val;
-  struct Arbre *gauche, *droit;
+  struct Arbre *g, *d;
 } Arbre;
 
 
@@ -113,5 +113,8 @@ int arbre_min(Arbre *arb);
  *  La valeur maxiamale de l'arbre
  */
 int arbre_max(Arbre *arb);
+
+
+int arbre_contient(Arbre *arb, int val);
 
 #endif // ARBRE_H

@@ -5,6 +5,7 @@
 
 Arbre* arbre_creer(int val)
 {
+  // Allouer la mémoire
   Arbre *arbre = calloc(1, sizeof(Arbre));
   if(!arbre)
     {
@@ -17,8 +18,9 @@ Arbre* arbre_creer(int val)
 
 void arbre_detruire(Arbre **arbre)
 {
-  if((*arbre)->gauche) arbre_detruire(&(*arbre)->gauche);
-  if((*arbre)->droit) arbre_detruire(&(*arbre)->droit);
+  // Supprimer la mémoire allouer pour tout l'arbre
+  if((*arbre)->g) arbre_detruire(&(*arbre)->g);
+  if((*arbre)->d) arbre_detruire(&(*arbre)->d);
   free(*arbre);
   *arbre = NULL;
 }
@@ -32,14 +34,24 @@ void arbre_afficher(Arbre *arbre, int indent)
   printf(" --> %d\n", arbre->val);
 
   int ajout = 4;
-  if(arbre->gauche) arbre_afficher(arbre->gauche, indent + ajout);
-  else if(arbre->droit)
+
+  // gauche
+  if(arbre->g)
+    {
+      arbre_afficher(arbre->g, indent + ajout);
+    }
+  else if(arbre->d)
     {
       for(i = 0; i < indent + ajout; ++i) printf(" ");
       printf(" --> NULL\n");
     }
-  if(arbre->droit) arbre_afficher(arbre->droit, indent + ajout);
-  else if(arbre->gauche)
+
+  // droit
+  if(arbre->d)
+    {
+      arbre_afficher(arbre->d, indent + ajout);
+    }
+  else if(arbre->g)
     {
       for(i = 0; i < indent + ajout; ++i) printf(" ");
       printf(" --> NULL\n");
@@ -48,12 +60,14 @@ void arbre_afficher(Arbre *arbre, int indent)
 
 int arbre_longueur(Arbre *arbre, int longeur)
 {
-  if(!arbre || (!arbre->droit && !arbre->gauche))
-    return longeur;
+  if(!arbre || (!arbre->d && !arbre->g)) //arbre vide ou pas de de fils
+    {
+      return longeur;
+    }
   else
     {
-      int lngGauche = arbre_longueur(arbre->gauche, longeur);
-      int lngDroit = arbre_longueur(arbre->droit, longeur);
+      int lngGauche = arbre_longueur(arbre->g, longeur);
+      int lngDroit = arbre_longueur(arbre->d, longeur);
       return (lngDroit > lngGauche ? lngDroit : lngGauche) + 1;
     }
 }
@@ -62,21 +76,21 @@ void arbre_affichage_prefixe(Arbre *arbre)
 {
   assert(arbre);
   printf("%d, ", arbre->val);
-  if(arbre->gauche) arbre_affichage_prefixe(arbre->gauche);
-  if(arbre->droit) arbre_affichage_prefixe(arbre->droit);
+  if(arbre->g) arbre_affichage_prefixe(arbre->g);
+  if(arbre->d) arbre_affichage_prefixe(arbre->d);
 }
 
 void arbre_affichage_infixe(Arbre *arbre)
 {
   assert(arbre);
 
-  if(!arbre->gauche && !arbre->droit)
+  if(!arbre->g && !arbre->d)
     printf("%d, ", arbre->val);
   else
     {
-      if(arbre->gauche) arbre_affichage_infixe(arbre->gauche);
+      if(arbre->g) arbre_affichage_infixe(arbre->g);
       printf("%d, ", arbre->val);
-      if(arbre->droit) arbre_affichage_infixe(arbre->droit);
+      if(arbre->d) arbre_affichage_infixe(arbre->d);
     }
 }
 
@@ -84,8 +98,8 @@ void arbre_affichage_postfixe(Arbre *arbre)
 {
   assert(arbre);
 
-  if(arbre->gauche) arbre_affichage_postfixe(arbre->gauche);
-  if(arbre->droit) arbre_affichage_postfixe(arbre->droit);
+  if(arbre->g) arbre_affichage_postfixe(arbre->g);
+  if(arbre->d) arbre_affichage_postfixe(arbre->d);
   printf("%d, ", arbre->val);
 }
 
@@ -95,51 +109,50 @@ void arbre_insertion_ordonnee(Arbre **arbre, int val)
     *arbre = arbre_creer(val);
   else
     {
-      if(val >= (*arbre)->val)  arbre_insertion_ordonnee(&(*arbre)->droit, val);
-      else arbre_insertion_ordonnee(&(*arbre)->gauche, val);
+      if(val >= (*arbre)->val)  arbre_insertion_ordonnee(&(*arbre)->d, val);
+      else arbre_insertion_ordonnee(&(*arbre)->g, val);
     }
 }
 
 Arbre* arbre_fils_plus_a_droite(Arbre *arbre)
 {
-  if(!arbre->droit) return arbre;
-  else return arbre_fils_plus_a_droite(arbre->droit);
+  if(!arbre->d) return arbre;
+  else return arbre_fils_plus_a_droite(arbre->d);
 }
 
-void arbre_supprimer_arbre_ordonnee(Arbre **arbre, int val)
+void arbre_supprimer_arbre_ordonnee(Arbre **arb, int val)
 {
-  if(!(*arbre)) return;
+  if(!(*arb)) return;
 
-  if((*arbre)->val == val)
+  if((*arb)->val == val) // trouvé
     {
-      arbre_supprimer_arbre_ordonnee(&(*arbre)->droit, val);
-      if(!(*arbre)->droit && !(*arbre)->gauche)
+      arbre_supprimer_arbre_ordonnee(&(*arb)->d, val);
+      if(!(*arb)->d && !(*arb)->g) // Pas de fils
         {
-          free(*arbre);
-          *arbre = NULL;
+          free(*arb);
+          *arb = NULL;
         }
-      else if(((*arbre)->droit && !(*arbre)->gauche) ||
-        ((*arbre)->gauche && !(*arbre)->droit))
+      else if(((*arb)->d && !(*arb)->g) || ((*arb)->g && !(*arb)->d))
         {
-          Arbre *fs = (*arbre)->droit? (*arbre)->droit : (*arbre)->gauche;
-          Arbre *ancien_arb = *arbre;
-          *arbre = fs;
+          Arbre *fs = (*arb)->d? (*arb)->d : (*arb)->g;
+          Arbre *ancien_arb = *arb;
+          *arb = fs;
           free(ancien_arb);
         }
     else
         {
-          Arbre *ancien_arb = *arbre;
-          *arbre = arbre_fils_plus_a_droite((*arbre)->gauche);
-          (*arbre)->droit = ancien_arb->droit;
+          Arbre *ancien_arb = *arb;
+          *arb = arbre_fils_plus_a_droite((*arb)->g);
+          (*arb)->d = ancien_arb->d;
           free(ancien_arb);
         }
     }
   else
     {
-      if(val >= (*arbre)->val)
-        arbre_supprimer_arbre_ordonnee(&(*arbre)->droit, val);
-      if(val < (*arbre)->val)
-        arbre_supprimer_arbre_ordonnee(&(*arbre)->gauche, val);
+      if(val >= (*arb)->val)
+        arbre_supprimer_arbre_ordonnee(&(*arb)->d, val);
+      if(val < (*arb)->val)
+        arbre_supprimer_arbre_ordonnee(&(*arb)->g, val);
     }
 }
 
@@ -147,8 +160,8 @@ int arbre_egaux(Arbre *arbre1, Arbre *arbre2)
 {
   if(!arbre1 || !arbre2) return arbre1 == NULL && arbre2 == NULL;
   return arbre1->val == arbre2->val
-      && arbre_egaux(arbre1->droit, arbre2->droit)
-      && arbre_egaux(arbre1->gauche, arbre2->gauche);
+      && arbre_egaux(arbre1->d, arbre2->d)
+      && arbre_egaux(arbre1->g, arbre2->g);
 }
 
 
@@ -159,20 +172,20 @@ int arbre_min(Arbre *arbre)
 {
   assert(arbre != NULL);
 
-  if(!arbre->gauche && !arbre->droit) // sans fils
+  if(!arbre->g && !arbre->d) // sans fils
     {
       return arbre->val;
     }
-  else if(!arbre->droit || !arbre->gauche) // 1 seul fils
+  else if(!arbre->d || !arbre->g) // 1 seul fils
     {
-      int min = arbre->droit ?
-            arbre_min(arbre->droit) : arbre_min(arbre->gauche);
+      int min = arbre->d ?
+            arbre_min(arbre->d) : arbre_min(arbre->g);
       return MIN(arbre->val, min);
     }
   else // 2 fils
     {
-      int minG = arbre_min(arbre->gauche);
-      int minD = arbre_min(arbre->droit);
+      int minG = arbre_min(arbre->g);
+      int minD = arbre_min(arbre->d);
       return MIN(MIN(minD, minG), arbre->val);
     }
 }
@@ -181,20 +194,32 @@ int arbre_max(Arbre *arbre)
 {
   assert(arbre != NULL);
 
-  if(!arbre->gauche && !arbre->droit) // sans fils
+  if(!arbre->g && !arbre->d) // sans fils
     {
       return arbre->val;
     }
-  else if(!arbre->droit || !arbre->gauche) // 1 seul fils
+  else if(!arbre->d || !arbre->g) // 1 seul fils
     {
-      int max = arbre->droit ?
-            arbre_max(arbre->droit) : arbre_max(arbre->gauche);
+      int max = arbre->d ?
+            arbre_max(arbre->d) : arbre_max(arbre->g);
       return MAX(arbre->val, max);
     }
   else // 2 fils
     {
-      int maxG = arbre_max(arbre->gauche);
-      int maxD = arbre_max(arbre->droit);
+      int maxG = arbre_max(arbre->g);
+      int maxD = arbre_max(arbre->d);
       return MAX(MAX(maxD, maxG), arbre->val);
     }
+}
+
+int arbre_contient(Arbre *arb, int val)
+{
+  if(!arb) return 0;
+
+  if(arb->val == val) return 1;
+
+  if(arb->g && arbre_contient(arb->g, val)) return 1;
+  if(arb->d && arbre_contient(arb->d, val)) return 1;
+
+  return 0;
 }
