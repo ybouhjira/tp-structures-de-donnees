@@ -150,3 +150,51 @@ int arbre_egaux(Arbre *arbre1, Arbre *arbre2)
       && arbre_egaux(arbre1->droit, arbre2->droit)
       && arbre_egaux(arbre1->gauche, arbre2->gauche);
 }
+
+
+#define MIN(a, b) a < b ? a : b
+#define MAX(a, b) a > b ? a : b
+
+int arbre_min(Arbre *arbre)
+{
+  assert(arbre != NULL);
+
+  if(!arbre->gauche && !arbre->droit) // sans fils
+    {
+      return arbre->val;
+    }
+  else if(!arbre->droit || !arbre->gauche) // 1 seul fils
+    {
+      int min = arbre->droit ?
+            arbre_min(arbre->droit) : arbre_min(arbre->gauche);
+      return MIN(arbre->val, min);
+    }
+  else // 2 fils
+    {
+      int minG = arbre_min(arbre->gauche);
+      int minD = arbre_min(arbre->droit);
+      return MIN(MIN(minD, minG), arbre->val);
+    }
+}
+
+int arbre_max(Arbre *arbre)
+{
+  assert(arbre != NULL);
+
+  if(!arbre->gauche && !arbre->droit) // sans fils
+    {
+      return arbre->val;
+    }
+  else if(!arbre->droit || !arbre->gauche) // 1 seul fils
+    {
+      int max = arbre->droit ?
+            arbre_max(arbre->droit) : arbre_max(arbre->gauche);
+      return MAX(arbre->val, max);
+    }
+  else // 2 fils
+    {
+      int maxG = arbre_max(arbre->gauche);
+      int maxD = arbre_max(arbre->droit);
+      return MAX(MAX(maxD, maxG), arbre->val);
+    }
+}

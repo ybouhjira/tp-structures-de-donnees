@@ -98,4 +98,20 @@ void arbre_supprimer_arbre_ordonnee(Arbre **arbre, int val);
  */
 int arbre_egaux(Arbre *arbre1, Arbre *arbre2);
 
+/*
+ * Entées :
+ *  Arbre *arbre1 : Un arbre non vide
+ * Sortie :
+ *  La valeur minimale de l'arbre
+ */
+int arbre_min(Arbre *arb);
+
+/*
+ * Entées :
+ *  Arbre *arbre1 : Un arbre non vide
+ * Sortie :
+ *  La valeur maxiamale de l'arbre
+ */
+int arbre_max(Arbre *arb);
+
 #endif // ARBRE_H

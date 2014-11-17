@@ -31,7 +31,6 @@ void test_inserer_arbre_ordonnee(CuTest *tc)
   for (i = 0; i < 1000; ++i) arbre_insertion_ordonnee(&arbre, rand() % 10000);
 
   CuAssertArbreOrdonnee(tc, arbre);
-
 }
 
 void test_supprimer_arbre_ordonnee(CuTest *tc)
@@ -129,6 +128,28 @@ void test_arbre_egaux(CuTest *tc)
   arbre_detruire(&b1);
 }
 
+void test_arbre_min(CuTest *tc)
+{
+  Arbre *arbre = arbre_creer(1);
+
+  int vals[11] = {12, 23, 8, -1, 3, 0, -1, 33, 23, 34, -2}, i;
+  for(i = 0; i < 11; i++)
+      arbre_insertion_ordonnee(&arbre, vals[i]);
+
+  CuAssertIntEquals(tc, -2, arbre_min(arbre));
+}
+
+void test_arbre_max(CuTest *tc)
+{
+  Arbre *arbre = arbre_creer(1);
+
+  int vals[11] = {12, 23, 8, -1, 3, 0, -1, 33, 100, 34, -2}, i;
+  for(i = 0; i < 11; i++)
+      arbre_insertion_ordonnee(&arbre, vals[i]);
+
+  CuAssertIntEquals(tc, 100, arbre_max(arbre));
+}
+
 CuSuite* Arbre_get_suite()
 {
   CuSuite *suite = CuSuiteNew();
@@ -136,5 +157,7 @@ CuSuite* Arbre_get_suite()
   SUITE_ADD_TEST(suite, test_inserer_arbre_ordonnee);
   SUITE_ADD_TEST(suite, test_supprimer_arbre_ordonnee);
   SUITE_ADD_TEST(suite, test_arbre_egaux);
+  SUITE_ADD_TEST(suite, test_arbre_min);
+  SUITE_ADD_TEST(suite, test_arbre_max);
   return suite;
 }
