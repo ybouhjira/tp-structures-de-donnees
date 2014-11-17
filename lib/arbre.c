@@ -46,27 +46,27 @@ void arbre_afficher(Arbre *arbre, int indent)
     }
 }
 
-int Longueur_arbre(Arbre *arbre, int longeur)
+int arbre_longueur(Arbre *arbre, int longeur)
 {
   if(!arbre || (!arbre->droit && !arbre->gauche))
     return longeur;
   else
     {
-      int lngGauche = Longueur_arbre(arbre->gauche, longeur);
-      int lngDroit = Longueur_arbre(arbre->droit, longeur);
+      int lngGauche = arbre_longueur(arbre->gauche, longeur);
+      int lngDroit = arbre_longueur(arbre->droit, longeur);
       return (lngDroit > lngGauche ? lngDroit : lngGauche) + 1;
     }
 }
 
-void Prefixe_arbre(Arbre *arbre)
+void arbre_affichage_prefixe(Arbre *arbre)
 {
   assert(arbre);
   printf("%d, ", arbre->val);
-  if(arbre->gauche) Prefixe_arbre(arbre->gauche);
-  if(arbre->droit) Prefixe_arbre(arbre->droit);
+  if(arbre->gauche) arbre_affichage_prefixe(arbre->gauche);
+  if(arbre->droit) arbre_affichage_prefixe(arbre->droit);
 }
 
-void Infixe_arbre(Arbre *arbre)
+void arbre_affichage_infixe(Arbre *arbre)
 {
   assert(arbre);
 
@@ -74,45 +74,45 @@ void Infixe_arbre(Arbre *arbre)
     printf("%d, ", arbre->val);
   else
     {
-      if(arbre->gauche) Infixe_arbre(arbre->gauche);
+      if(arbre->gauche) arbre_affichage_infixe(arbre->gauche);
       printf("%d, ", arbre->val);
-      if(arbre->droit) Infixe_arbre(arbre->droit);
+      if(arbre->droit) arbre_affichage_infixe(arbre->droit);
     }
 }
 
-void Postfixe_arbre(Arbre *arbre)
+void arbre_affichage_postfixe(Arbre *arbre)
 {
   assert(arbre);
 
-  if(arbre->gauche) Postfixe_arbre(arbre->gauche);
-  if(arbre->droit) Postfixe_arbre(arbre->droit);
+  if(arbre->gauche) arbre_affichage_postfixe(arbre->gauche);
+  if(arbre->droit) arbre_affichage_postfixe(arbre->droit);
   printf("%d, ", arbre->val);
 }
 
-void Inserer_arbre_ordnnee(Arbre **arbre, int val)
+void arbre_insertion_ordonnee(Arbre **arbre, int val)
 {
   if(!(*arbre))
     *arbre = arbre_creer(val);
   else
     {
-      if(val >= (*arbre)->val)  Inserer_arbre_ordnnee(&(*arbre)->droit, val);
-      else Inserer_arbre_ordnnee(&(*arbre)->gauche, val);
+      if(val >= (*arbre)->val)  arbre_insertion_ordonnee(&(*arbre)->droit, val);
+      else arbre_insertion_ordonnee(&(*arbre)->gauche, val);
     }
 }
 
-Arbre* Fils_plus_a_droite(Arbre *arbre)
+Arbre* arbre_fils_plus_a_droite(Arbre *arbre)
 {
   if(!arbre->droit) return arbre;
-  else return Fils_plus_a_droite(arbre->droit);
+  else return arbre_fils_plus_a_droite(arbre->droit);
 }
 
-void Supprimer_arbre_ordonnee(Arbre **arbre, int val)
+void arbre_supprimer_arbre_ordonnee(Arbre **arbre, int val)
 {
   if(!(*arbre)) return;
 
   if((*arbre)->val == val)
     {
-      Supprimer_arbre_ordonnee(&(*arbre)->droit, val);
+      arbre_supprimer_arbre_ordonnee(&(*arbre)->droit, val);
       if(!(*arbre)->droit && !(*arbre)->gauche)
         {
           free(*arbre);
@@ -129,7 +129,7 @@ void Supprimer_arbre_ordonnee(Arbre **arbre, int val)
     else
         {
           Arbre *ancien_arb = *arbre;
-          *arbre = Fils_plus_a_droite((*arbre)->gauche);
+          *arbre = arbre_fils_plus_a_droite((*arbre)->gauche);
           (*arbre)->droit = ancien_arb->droit;
           free(ancien_arb);
         }
@@ -137,9 +137,9 @@ void Supprimer_arbre_ordonnee(Arbre **arbre, int val)
   else
     {
       if(val >= (*arbre)->val)
-        Supprimer_arbre_ordonnee(&(*arbre)->droit, val);
+        arbre_supprimer_arbre_ordonnee(&(*arbre)->droit, val);
       if(val < (*arbre)->val)
-        Supprimer_arbre_ordonnee(&(*arbre)->gauche, val);
+        arbre_supprimer_arbre_ordonnee(&(*arbre)->gauche, val);
     }
 }
 

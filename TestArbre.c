@@ -28,7 +28,7 @@ void test_inserer_arbre_ordonnee(CuTest *tc)
   Arbre *arbre = NULL;
 
   int i;
-  for (i = 0; i < 1000; ++i) Inserer_arbre_ordnnee(&arbre, rand() % 10000);
+  for (i = 0; i < 1000; ++i) arbre_insertion_ordonnee(&arbre, rand() % 10000);
 
   CuAssertArbreOrdonnee(tc, arbre);
 
@@ -40,14 +40,14 @@ void test_supprimer_arbre_ordonnee(CuTest *tc)
   Arbre *arbre = NULL;
 
   int i;
-  for (i = 0; i < 10000; ++i) Inserer_arbre_ordnnee(&arbre, rand() % 10000);
+  for (i = 0; i < 10000; ++i) arbre_insertion_ordonnee(&arbre, rand() % 10000);
 
   // Etre sur que 100 existe
-  Inserer_arbre_ordnnee(&arbre, 100);
+  arbre_insertion_ordonnee(&arbre, 100);
 
-  Supprimer_arbre_ordonnee(&arbre, 100);
-  Supprimer_arbre_ordonnee(&arbre, 100);
-  Supprimer_arbre_ordonnee(&arbre, 100);
+  arbre_supprimer_arbre_ordonnee(&arbre, 100);
+  arbre_supprimer_arbre_ordonnee(&arbre, 100);
+  arbre_supprimer_arbre_ordonnee(&arbre, 100);
 
   CuAssertArbreOrdonnee(tc, arbre);
 }
@@ -66,9 +66,9 @@ void test_longueur_arbre(CuTest *tc)
    *       9
    */
   Arbre *arbre = arbre_creer(1);
-  CuAssertIntEquals(tc, 0, Longueur_arbre(arbre, 0));
+  CuAssertIntEquals(tc, 0, arbre_longueur(arbre, 0));
   arbre->gauche = arbre_creer(2);
-  CuAssertIntEquals(tc, 1, Longueur_arbre(arbre, 0));
+  CuAssertIntEquals(tc, 1, arbre_longueur(arbre, 0));
 
   Arbre *a3 = arbre->droit = arbre_creer(3);
   a3->gauche = arbre_creer(5);
@@ -76,11 +76,11 @@ void test_longueur_arbre(CuTest *tc)
   a3->droit->droit = arbre_creer(7);
   a3->droit->gauche = arbre_creer(8);
 
-  CuAssertIntEquals(tc, 3, Longueur_arbre(arbre, 0));
+  CuAssertIntEquals(tc, 3, arbre_longueur(arbre, 0));
 
   a3->droit->gauche->droit = arbre_creer(9);
 
-  CuAssertIntEquals(tc, 4, Longueur_arbre(arbre, 0));
+  CuAssertIntEquals(tc, 4, arbre_longueur(arbre, 0));
 
   arbre_detruire(&arbre);
 }
