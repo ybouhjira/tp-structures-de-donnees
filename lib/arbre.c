@@ -126,13 +126,15 @@ void arbre_supprimer_arbre_ordonnee(Arbre **arb, int val)
 
   if((*arb)->val == val) // trouvé
     {
+      // Supprimer les autres occurences
       arbre_supprimer_arbre_ordonnee(&(*arb)->d, val);
-      if(!(*arb)->d && !(*arb)->g) // Pas de fils
+
+      if(!(*arb)->d && !(*arb)->g) // 0 fils
         {
           free(*arb);
           *arb = NULL;
         }
-      else if(((*arb)->d && !(*arb)->g) || ((*arb)->g && !(*arb)->d))
+      else if(((*arb)->d && !(*arb)->g) || ((*arb)->g && !(*arb)->d)) // 1 fils
         {
           Arbre *fs = (*arb)->d? (*arb)->d : (*arb)->g;
           Arbre *ancien_arb = *arb;
