@@ -119,6 +119,7 @@ void test_arbre_egaux(CuTest *tc)
   /**/b2->g = b7;
   b1->g = b3;
 
+  //arbre_afficher(a1);
   CuAssertTrue(tc, arbre_egaux(a1, b1));
 
   arbre_detruire(&b7);

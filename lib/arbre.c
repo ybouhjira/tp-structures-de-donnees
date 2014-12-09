@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 #include "arbre.h"
 
 Arbre* arbre_creer(int val)
@@ -25,38 +26,38 @@ void arbre_detruire(Arbre **arbre)
   *arbre = NULL;
 }
 
-void arbre_afficher(Arbre *arbre, int indent)
-{
-  assert(arbre);
-  int i;
-  for(i = 0; i < indent; ++i) printf(" ");
+//void arbre_afficher(Arbre *arbre, int indent)
+//{
+//  assert(arbre);
+//  int i;
+//  for(i = 0; i < indent; ++i) printf(" ");
 
-  printf(" --> %d\n", arbre->val);
+//  printf(" --> %d\n", arbre->val);
 
-  int ajout = 4;
+//  int ajout = 4;
 
-  // gauche
-  if(arbre->g)
-    {
-      arbre_afficher(arbre->g, indent + ajout);
-    }
-  else if(arbre->d)
-    {
-      for(i = 0; i < indent + ajout; ++i) printf(" ");
-      printf(" --> NULL\n");
-    }
+//  // gauche
+//  if(arbre->g)
+//    {
+//      arbre_afficher(arbre->g, indent + ajout);
+//    }
+//  else if(arbre->d)
+//    {
+//      for(i = 0; i < indent + ajout; ++i) printf(" ");
+//      printf(" --> NULL\n");
+//    }
 
-  // droit
-  if(arbre->d)
-    {
-      arbre_afficher(arbre->d, indent + ajout);
-    }
-  else if(arbre->g)
-    {
-      for(i = 0; i < indent + ajout; ++i) printf(" ");
-      printf(" --> NULL\n");
-    }
-}
+//  // droit
+//  if(arbre->d)
+//    {
+//      arbre_afficher(arbre->d, indent + ajout);
+//    }
+//  else if(arbre->g)
+//    {
+//      for(i = 0; i < indent + ajout; ++i) printf(" ");
+//      printf(" --> NULL\n");
+//    }
+//}
 
 int arbre_longueur(Arbre *arbre, int longeur)
 {
@@ -224,4 +225,28 @@ int arbre_contient(Arbre *arb, int val)
   if(arb->d && arbre_contient(arb->d, val)) return 1;
 
   return 0;
+}
+
+void arbre_afficher_recursive(Arbre *arb, char *prefix, int isTail) {
+  printf("%s%s %d\n", prefix, isTail ? "└──" : "├──", arb->val);
+
+  if(arb->g)
+    {
+      char gPrefix[100] = {0};
+      strcat(gPrefix, prefix);
+      strcat(gPrefix, isTail ? "    " : "│  ");
+      arbre_afficher_recursive(arb->g, gPrefix, 0);
+    }
+
+  if(arb->d)
+    {
+      char dPrefix[100] = {0};
+      strcat(dPrefix, prefix);
+      strcat(dPrefix, isTail ? "    " : "└──");
+      arbre_afficher_recursive(arb->d, dPrefix, 1);
+    }
+}
+
+void arbre_afficher(Arbre *arb) {
+  arbre_afficher_recursive(arb, "", 1);
 }

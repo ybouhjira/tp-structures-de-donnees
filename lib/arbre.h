@@ -34,7 +34,7 @@ void arbre_detruire(Arbre **arbre);
  * Description :
  *    Affiche l'arbre
  */
-void arbre_afficher(Arbre *arbre, int indent);
+void arbre_afficher(Arbre *arbre);
 
 /*
  * Entées :
