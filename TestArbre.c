@@ -173,6 +173,25 @@ void test_arbre_contient(CuTest *tc)
 
 }
 
+void assert_arbre_equilibre(Arbre *arb, CuTest *tc)
+{
+  int equ = arbre_hauteur(arb->d) - arbre_hauteur(arb->g);
+  CuAssertTrue(tc, -1 <= equ && equ <= 1);
+
+  if(arb->d) assert_arbre_equilibre(arb->d, tc);
+  if(arb->g) assert_arbre_equilibre(arb->g, tc);
+}
+
+void test_arbre_equilibre(CuTest *tc)
+{
+  Arbre *arb = NULL;
+  int i;
+  for(i = 0; i < 100; i++)
+    arb = arbre_insert_equilibre(arb, rand() % 100);
+
+  assert_arbre_equilibre(arb, tc);
+}
+
 CuSuite* Arbre_get_suite()
 {
   CuSuite *suite = CuSuiteNew();
@@ -183,5 +202,6 @@ CuSuite* Arbre_get_suite()
   SUITE_ADD_TEST(suite, test_arbre_min);
   SUITE_ADD_TEST(suite, test_arbre_max);
   SUITE_ADD_TEST(suite, test_arbre_contient);
+  SUITE_ADD_TEST(suite, test_arbre_equilibre);
   return suite;
 }

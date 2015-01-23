@@ -117,4 +117,88 @@ int arbre_max(Arbre *arb);
 
 int arbre_contient(Arbre *arb, int val);
 
+/**
+    Fonction : est_feuille
+    Entrées : arbre
+    Sortie : 0 ou 1
+    description : si c'est une feuille retourn 1 sinon 0
+*/
+int arbre_est_feuille(Arbre* arbre);
+
+/**
+    Fonction : hauteur
+    Entrées : arbre
+    Sortie : entier
+    Description : calcul la hauteur
+*/
+int arbre_hauteur(Arbre* arbre);
+
+
+/**
+    Fonction : supprime_fils_plus_droit
+    Entrée : racine
+    Sortie : valeur du noeud de fils le plus droit du fils gauche
+*/
+int arbre_supprime_fils_plus_droit(Arbre* racine);
+
+
+/**
+    Fonction : supprime le fils plus gauche du fils droit
+    Entrées: racine
+    Sortie : valeur de fils plus gauche du fils droit
+*/
+
+int arbre_supprime_fils_plus_gauche(Arbre*racine);
+
+
+
+/**
+    Fonction : rotation gauche
+    Entrées : arbre
+    Sortie : arbre rotationée
+*/
+Arbre* arbre_rotate_l(Arbre* arbre);
+
+/**
+    Fonction : rotation droite
+    Entrées : arbre
+    Sortie : arbre rotationée
+    Description : effectue une rotation droite
+*/
+
+Arbre* arbre_rotate_r(Arbre* arbre);
+
+
+/**
+    Fonction : equilibre
+    Entrées : arbre, valuer d'equilibre
+    Sortie : arbre rotationée
+    Description : equilibre l'arbre selon equ qui est soit -1 0 ou 1
+*/
+
+Arbre* arbre_equilibre(Arbre* arbre,int equ);
+
+
+/**
+    Fonction : insertion equilibre
+    Entrées : arbre, elt a inserer
+    Sortie : arbre equilibré
+*/
+
+Arbre* arbre_insert_equilibre(Arbre* arbre,int elt);
+
+
+
+/**
+    Fonction : supprime_equilibre
+    Entrées : racine et element a supprime
+    Sortie : arbre equilibre
+*/
+Arbre* arbre_supprime_equilibre(Arbre* racine,int elt);
+
+
+void arbre_afficher_recusrsive_equilibre(Arbre *arb, char *prefix, int isTail);
+
+void arbre_afficher_equilibre(Arbre *arb);
+
 #endif // ARBRE_H
